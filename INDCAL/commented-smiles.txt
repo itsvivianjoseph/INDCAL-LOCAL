@@ -1,0 +1,4278 @@
+
+// using System;
+// using System.Collections;
+// using System.Collections.Generic;
+// using System.Linq;
+// using System.Text;
+// using System.Threading.Tasks;
+// namespace Sfdfs
+// {
+
+// public class graph
+// {
+
+//     public class Node
+//     {
+//         public string Name;
+//         public List<Arc> Arcs = new List<Arc>();
+
+//         public Node(string name)
+//         {
+//             Name = name;
+//         }
+//         public Node AddArc(Node child, int w)
+//         {
+//             Arcs.Add(new Arc
+//             {
+//             Parent = this,
+//             Child = child,
+//             Weigth = w
+//             });
+
+//         if (!child.Arcs.Exists(a => a.Parent == child && a.Child == this))
+//         {
+//             child.AddArc(this, w);
+//         }
+
+//         return this;
+//     }
+// }
+    
+// public class Arc
+// {
+//     public int Weigth;
+//     public Node Parent;
+//     public Node Child;
+// }
+//     public Node Root;
+//     public List<Node> AllNodes = new List<Node>();
+
+//     public Node CreateRoot(string name)
+//     {
+//         Root = CreateNode(name);
+//         return Root;
+//     }
+
+//     public Node CreateNode(string name)
+//     {
+//         var n = new Node(name);
+//         AllNodes.Add(n);
+//         return n;
+//     }
+
+//     public static void PrintMatrix(ref int?[,] matrix, int Count)
+//     {
+//     Console.Write("       ");
+//     for (int i = 0; i < Count; i++)
+//     {
+//         Console.Write("{0}  ", (char)('A' + i));
+//     }
+
+//     Console.WriteLine();
+
+//     for (int i = 0; i < Count; i++)
+//     {
+//         Console.Write("{0} | [ ", (char)('A' + i));
+
+//         for (int j = 0; j < Count; j++)
+//         {
+//             if (i == j)
+//             {
+//                 Console.Write(" &,");
+//             }
+//             else if (matrix[i, j] == null)
+//             {
+//                 Console.Write(" .,");
+//             }
+//             else
+//             {
+//                 Console.Write(" {0},", matrix[i, j]);
+//             }
+
+//         }
+//         Console.Write(" ]\r\n");
+//     }
+//     Console.Write("\r\n");
+// }
+//     public int?[,] CreateAdjMatrix()
+//     {
+//         int?[,] adj = new int?[AllNodes.Count, AllNodes.Count];
+
+//     for (int i = 0; i < AllNodes.Count; i++)
+//     {
+//         Node n1 = AllNodes[i];
+
+//         for (int j = 0; j < AllNodes.Count; j++)
+//         {
+//             Node n2 = AllNodes[j];
+
+//             var arc = n1.Arcs.FirstOrDefault(a => a.Child == n2);
+
+//             if (arc != null)
+//             {
+//                 adj[i, j] = arc.Weigth;
+//             }
+//         }
+//     }
+//     return adj;
+//     }
+
+//     static void Main(string[] args)
+// {
+//     var graph = new Graph();
+
+//     var a = graph.CreateRoot("A");
+//     var b = graph.CreateNode("B");
+//     var c = graph.CreateNode("C");
+//     var d = graph.CreateNode("D");
+//     var e = graph.CreateNode("E");
+//     var f = graph.CreateNode("F");
+//     var g = graph.CreateNode("G");
+//     var h = graph.CreateNode("H");
+//     var i = graph.CreateNode("I");
+//     var j = graph.CreateNode("J");
+//     var k = graph.CreateNode("K");
+//     var l = graph.CreateNode("L");
+//     var m = graph.CreateNode("M");
+//     var n = graph.CreateNode("N");
+//     var o = graph.CreateNode("O");
+//     var p = graph.CreateNode("P");
+
+//     a.AddArc(b, 1)
+//      .AddArc(c, 1);
+
+//     b.AddArc(e, 1)
+//      .AddArc(d, 3);
+
+//     c.AddArc(f, 1)
+//      .AddArc(d, 3);
+
+//     c.AddArc(f, 1)
+//      .AddArc(d, 3);
+
+//     d.AddArc(h, 8);
+
+//     e.AddArc(g, 1).AddArc(h, 3);
+
+//     f.AddArc(h, 3).AddArc(i, 1);
+
+//     g.AddArc(j, 3).AddArc(l, 1);
+
+//     h.AddArc(j, 8).AddArc(k, 8).AddArc(m, 3);
+
+//     i.AddArc(k, 3).AddArc(n, 1);
+
+//     j.AddArc(o, 3);
+
+//     k.AddArc(p, 3);
+
+//     l.AddArc(o, 1);
+
+//     m.AddArc(o, 1).AddArc(p, 1);
+
+//     n.AddArc(p, 1);
+
+//     // o - Already added
+
+//     // p - Already added
+
+//     int?[,] adj = graph.CreateAdjMatrix(); // We're going to implement that down below
+
+//     PrintMatrix(ref adj, graph.AllNodes.Count); // We're going to implement that down below
+// }
+
+// }
+ 
+
+
+// }
+
+
+//h-c-(h-(x))(y)
+            
+            //    h-x
+            //    |
+            //  h-c
+            //    |
+            //    y
+
+
+
+            // //intial try
+            // //input SMILES notation
+            // string ip = "c-cl=c-c#c#c";
+            //            //0123456789
+            // char[] ans = ip.ToCharArray();
+
+            // // for(int i=0;i<=ans.Length;i++)
+            // // {
+            // //     Console.WriteLine(ans[i]);
+            // // }
+
+
+            // //traverse through the char array and initiate the nodes no
+            // var res = new ArrayList(); 
+            // for(int i=0;i<ans.Count();i++)
+            // {
+            //     if((ans[i]=='l')&&(ans[i-1]=='c'))
+            //     {
+            //             res.RemoveAt(i-1);
+            //             res.Add("cl");
+            //     }
+            //     if(ans[i]=='c')
+            //     {
+            //         res.Add(ans[i].ToString());
+            //         //graph.addVertex(i);
+            //     }
+            // }
+            // //res.RemoveAt(2);
+            // for(int i=0;i<res.Count;i++)
+            // {
+            //     Console.WriteLine(res[i]);
+            // }
+
+            // //traverse through the array and initiate the edges
+            // for(int i=0;i<ans.Count();i++)
+            // {
+            //     if(ans[i]=='-')
+            //     {
+            //         graph.addEdge(i-1,i+1,1);
+            //     }
+            //     if(ans[i]=='=')
+            //     {
+            //         graph.addEdge(i-1,i+1,2);
+            //     }
+            //     if(ans[i]=='#')
+            //     {
+            //         graph.addEdge(i-1,i+1,3);
+            //     }
+            // }
+           
+           
+           
+           
+            // //printing the graph
+            // foreach (var x in graph.adjacencyList)
+            // {
+            //     foreach (KeyValuePair<int, int> y in x.Value)
+            //     {
+            //         Console.WriteLine("vertex " + x.Key + " ---> " + y.Key + ": "+y.Value);
+            //     }
+            // }
+
+
+
+            //int len  =ip.Length;
+            //character array of the input string
+            //List<string> ans = new List<string>();
+            //string[] ans = new string[ip.Length];
+            //traverse through the array seperating the elements
+
+            // for(int i=0;i<;i++){
+            //     if(ip[i]=='c'){
+            //         ans.Add("c");
+            //     }
+            //     if(ip[i]=='l'){
+            //         if(ip[i-1]=='c'){
+            //             ans.RemoveAt(i-1);
+            //             ans.Add("cl");
+            //         }
+            //     }
+            // }
+            
+            
+            //Console.WriteLine(ans.Count);
+            // for(int i=0;i<ans.Count;i++){
+            //     Console.Write(ans.ElementAt(i));
+            // }
+
+
+
+
+
+            // graph.addVertex(1); 
+            // graph.addVertex(2);
+            // graph.addVertex(3); 
+            // graph.addVertex(4);
+            // graph.addVertex(5); 
+            // graph.addVertex(6);
+            // graph.addEdge(1, 2, 4);
+            // graph.addEdge(1, 3, 2);
+            // graph.addEdge(2, 5, 3); 
+            // graph.addEdge(3, 4, 2);
+            // graph.addEdge(3, 6, 4); 
+            // graph.addEdge(4, 6, 1);
+            // graph.addEdge(6, 5, 1); 
+            // graph.addEdge(4, 5, 3);
+
+
+            
+            // USER INPUT FOR SMILES NOTATIONS
+            //Console.WriteLine("Enter the smiles notation: ");
+            // string sb = "h-c-(h-(x))-(y)";   //Console.ReadLine();
+                       //   012345678910 
+
+            // COVERT THE INPUT INTO A CHARACTER ARRAY
+            // var res = sb.ToCharArray();
+
+
+//DUMMY-->MUNIANDI SUBMISSION
+
+// using System;
+// using System.Collections;
+// using System.Collections.Generic;
+// using System.Linq;
+// using System.Text;
+// using System.Threading.Tasks;
+// namespace xyz
+// {
+
+//     class WeightedGraph
+//     {
+//         public Dictionary<int, Dictionary<int, int>> adjacencyList;
+//         public WeightedGraph()
+//         {
+//             this.adjacencyList = new Dictionary<int , Dictionary<int, int>>(){};
+//         }
+//         public void addVertex(int vertex) // Add new vertex
+//         {
+//             if (!this.adjacencyList.ContainsKey(vertex))
+//             {
+//                 this.adjacencyList.Add(vertex, new Dictionary<int, int>());
+//             }
+//             else
+//             {
+//                 Console.WriteLine("this vertex is in use");
+//             }
+//         }
+//         public void addEdge(int v1, int v2, int weight) // New edge between 2 vertices
+//         {
+//             if (this.adjacencyList.ContainsKey(v1) && this.adjacencyList.ContainsKey(v2))
+//             {
+//                 this.adjacencyList[v1].Add(v2, weight);
+//                 this.adjacencyList[v2].Add(v1, weight);
+//             }
+//             else
+//             {
+//                 Console.WriteLine("Error: Vertex does not exist");
+//             }
+//         }
+//         // static int findBracketsPosition(String x){
+//         //     int count=0;
+//         //     for(int i=0;i<x.Length;i++){
+//         //         if(x[i]=="(") count+=2;
+
+//         //     }
+//         // }
+//         static void Main(string[] args)
+//         {
+//             WeightedGraph graph = new WeightedGraph();
+
+//             // USER INPUT FOR SMILES NOTATIONS
+//             //Console.WriteLine("Enter the smiles notation: ");
+//             string sb = "H-c-(h-(x))(y)";   //Console.ReadLine();
+//                     //   012345678910
+//             // COVERT THE INPUT INTO A CHARACTER ARRAY
+//             var res = sb.ToCharArray();
+
+//             // CREATING A LIST WITHOUT ANY BONDS
+//             var res2 = new ArrayList();
+
+//             for (int i = 0; i < res.Length; i++)
+//             {
+//                 if (res[i] == ('-') || res[i] == ('=') || res[i] == ('#') || res[i] == ('(') || res[i] == (')')||res[i])
+//                 {
+//                     continue;
+//                 }
+//                 else 
+//                 {
+//                     res2.Add(res[i]);
+//                     graph.addVertex(i);
+//                 }
+//             }
+
+//             //dummy -> print the lists res and res2
+//             for(int i=0;i<res2.Count;i++){
+//                 Console.Write(res2[i]+" ");
+//             }
+//             Console.WriteLine();
+//             for(int i=0;i<res.Length;i++)
+//             {
+//                 Console.Write(res[i]+" ");
+//             }
+// // ARRAY arr = new ARRAY()
+// int count =0;
+//             //traverse through the array and initiate the edges
+
+// int count1 = 0;
+
+//         // declare hashmap kind of thing as to hold [number {c1,c2,c3... as 1 2 3}, cyclic component index
+//         // hashmap hs
+//             for(int i=0;i<res.Count();i++)
+//             {
+                
+
+
+
+
+
+//     if(res[i] is a digit){
+//             if(hs.contains (that digit) )
+//             {
+//                 j=i;
+//                 for(res[j] is digit ) j-=1;
+
+//                     its (hs.value()) value gets mapped to res[j] current element in graph
+//             }
+//             else
+//                     hs[that digit value,index of that ele] = [1,i-1];  or [2,i-1];...
+//        }
+       
+
+
+
+
+
+
+//                 if(res[i]=='('){
+//                     arr[count++] = i-2;
+//                 } 
+//                 if(res[i]=='-')
+//                 {
+//                     graph.addEdge(i-1,i+1,1);
+//                 }
+//                 if(res[i]=='=')
+//                 {
+//                     graph.addEdge(i-1,i+1,2);
+//                 }
+//                 if(res[i]=='#')
+//                 {
+//                     graph.addEdge(i-1,i+1,3);
+//                 }
+//                 if(res[i]==')') count--;
+//                 if(res[i]=='(' && res[i-1]==')')
+//                 {
+//                     count++;
+//                      graph.addEdge(arr[count],i+1,1);
+                    
+//                 }
+//                 else if(res[i]=='(' && res[i-1]!=')')
+//                 {
+//                     graph.addEdge(arr[count],i+1,1);
+        
+//                 }
+//             }
+//             Console.WriteLine();
+
+
+//             //printing the graph
+//             foreach (var x in graph.adjacencyList)
+//             {
+//                 foreach (KeyValuePair<int, int> y in x.Value)
+//                 {
+//                     Console.WriteLine("vertex " + x.Key + " ---> " + y.Key + ": "+y.Value);
+//                 }
+//             }
+
+
+
+//             // //intial try
+//             // //input SMILES notation
+//             // string ip = "c-cl=c-c#c#c";
+//             //            //0123456789
+//             // char[] ans = ip.ToCharArray();
+
+//             // // for(int i=0;i<=ans.Length;i++)
+//             // // {
+//             // //     Console.WriteLine(ans[i]);
+//             // // }
+
+
+//             // //traverse through the char array and initiate the nodes no
+//             // var res = new ArrayList(); 
+//             // for(int i=0;i<ans.Count();i++)
+//             // {
+//             //     if((ans[i]=='l')&&(ans[i-1]=='c'))
+//             //     {
+//             //             res.RemoveAt(i-1);
+//             //             res.Add("cl");
+//             //     }
+//             //     if(ans[i]=='c')
+//             //     {
+//             //         res.Add(ans[i].ToString());
+//             //         //graph.addVertex(i);
+//             //     }
+//             // }
+//             // //res.RemoveAt(2);
+//             // for(int i=0;i<res.Count;i++)
+//             // {
+//             //     Console.WriteLine(res[i]);
+//             // }
+
+//             // //traverse through the array and initiate the edges
+//             // for(int i=0;i<ans.Count();i++)
+//             // {
+//             //     if(ans[i]=='-')
+//             //     {
+//             //         graph.addEdge(i-1,i+1,1);
+//             //     }
+//             //     if(ans[i]=='=')
+//             //     {
+//             //         graph.addEdge(i-1,i+1,2);
+//             //     }
+//             //     if(ans[i]=='#')
+//             //     {
+//             //         graph.addEdge(i-1,i+1,3);
+//             //     }
+//             // }
+           
+           
+           
+           
+//             // //printing the graph
+//             // foreach (var x in graph.adjacencyList)
+//             // {
+//             //     foreach (KeyValuePair<int, int> y in x.Value)
+//             //     {
+//             //         Console.WriteLine("vertex " + x.Key + " ---> " + y.Key + ": "+y.Value);
+//             //     }
+//             // }
+
+//         }
+//     }
+// }
+
+                // if(Char.IsDigit(res[i])&&(res[i]!=res.Count()))
+                // {
+                //     int bond = graph.findindexvalues(i,0);
+                //     graph.addEdge(i-1,i+2,bond);
+                // }
+                //     if(res[i] is a digit){
+
+
+//             if(hs.contains (that digit) )
+//             {
+//                 j=i;
+//                 for(res[j] is digit ) j-=1;
+
+//                     its (hs.value()) value gets mapped to res[j] current element in graph
+//             }
+//             else
+//                     hs[that digit value,index of that ele] = [1,i-1];  or [2,i-1];...
+//        }
+
+
+
+/////raid 1
+// using System;
+// using System.Collections;
+// using System.Collections.Generic;
+// using System.Linq;
+// using System.Text;
+// using System.Threading.Tasks;
+// namespace xyz
+// {
+//     class WeightedGraph
+//     {
+//         //INPUT SMILES
+//         //c1-c-c2-c-c-c-c-c2-c-c1
+//         static string sb = "c1-c-c2-c-c-c-c-c2-c-c1"; 
+//         //CONVERTING THE INPUT SMILES STRING INTO CHARACTER ARRAY-->RES
+//         //FOR EASY TRAVERSAL
+//         static char[] res = sb.ToCharArray();
+//         //ADJACENCY LIST CONTAINING FOR GRAPH NODES CONNECTIONS
+//         public Dictionary<int, Dictionary<int, int>> adjacencyList;
+//         //CONSTRUCTOR 
+//         public WeightedGraph()
+//         {
+//             this.adjacencyList = new Dictionary<int , Dictionary<int, int>>(){};
+//         }
+//         //VERTEX CREATION-->Add new vertex
+//         public void addVertex(int vertex) 
+//         {
+//             if (!this.adjacencyList.ContainsKey(vertex))
+//             {
+//                 this.adjacencyList.Add(vertex, new Dictionary<int, int>());
+//             }
+//             else
+//             {
+//                 Console.WriteLine("this vertex is in use");
+//             }
+//         }
+//         //CREATION OF EDGES BETWEEN NODES--> New edge between 2 vertices
+//         public void addEdge(int v1, int v2, int weight) 
+//         {
+//             if (this.adjacencyList.ContainsKey(v1) && this.adjacencyList.ContainsKey(v2))
+//             {
+//                 this.adjacencyList[v1].Add(v2, weight);
+//                 this.adjacencyList[v2].Add(v1, weight);
+//             }
+//             else
+//             {
+//                 Console.WriteLine("Error: Vertex does not exist");
+//             }
+//         }
+//         //findindexvalues-->USED FOR FINDING THE BOND BEFORE THE GIVEN INDEX
+//         public int findindexvalues(int idx,int logic)
+//         {
+//             int bond=0;
+//             if(logic==1)
+//             {
+//                 if (res[idx-1] == ('-') ){
+//                 bond=1;
+//             }
+//             else if(res[idx-1]==('=')){
+//                 bond=2;
+//             }        
+//             else if(res[idx-1]==('#')){
+//                 bond=3;
+//             }    
+//             }
+//             if(logic==0)
+//             {
+//                 if (res[idx+1] == ('-') ){
+//                 bond=1;
+//             }
+//             else if(res[idx+1]==('=')){
+//                 bond=2;
+//             }        
+//             else if(res[idx+1]==('#')){
+//                 bond=3;
+//             }    
+//             }
+//             return bond;
+//         }
+//         //MAIN METHOD
+//         static void Main(string[] args)
+//         {
+//             //CREATING OBJECT 
+//             WeightedGraph graph = new WeightedGraph();
+// //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//             // CREATING A LIST WITHOUT ANY BONDS
+//             var res2 = new ArrayList();
+//             // Dictionary<int, int> cyclicCompNumber =  new Dictionary<int, int>();
+            
+//             ///////////////''
+//             // int idx = 0;
+//             // for(int i=0;i<res.Length;i++)
+//             // {   
+//             //     if(Char.IsDigit(res[i]))
+//             //     {
+//             //         if(cyclicCompNumber.ContainsKey((int)char.GetNumericValue(res[i])))
+//             //         {
+//             //             continue;
+//             //         }
+//             //         else
+//             //         {
+//             //             cyclicCompNumber.Add((int)char.GetNumericValue(res[i]),i-1);
+//             //             idx = i;
+//             //         }
+//             //     }
+//             // }
+//             // foreach(KeyValuePair<int,int> x in cyclicCompNumber)
+//             // {
+//             //     Console.WriteLine("{0} : {1}",x.Key,x.Value);
+//             // }
+//             //Console.WriteLine(idx);
+ 
+//             /////////\
+
+//             for (int i = 0; i < res.Length; i++)
+//             {
+//                 if (res[i] == ('-') || res[i] == ('=') || res[i] == ('#') || res[i] == ('(') || res[i] == (')') || Char.IsDigit(res[i]))
+//                 {
+//                     continue;
+//                 }
+//                 else 
+//                 {
+//                     res2.Add(res[i]);
+//                     graph.addVertex(i);
+//                 }
+//             }            
+// //--------------------------------------------------------------------------------------------------------------------------------------------------------
+//             //PRINT THE LIST RES-->CONTAINS INPUT SMILES IN CHARACTER ARRAY FORM
+//             for(int i=0;i<res.Length;i++)
+//             {
+//                 Console.Write(res[i]+" ");
+//             }
+
+//             Console.WriteLine();
+
+//             //PRINT THE LIST RES2-->CONTAINS THE ELEMENTS IN THE INPUT SMILES
+//             for(int i=0;i<res2.Count;i++){
+//                 Console.Write(res2[i]+" ");
+//             }
+// //---------------------------------------------------------------------------------------------------------------------------------------------------------------
+//             //DUMMY
+//             int[] arr = new int[100];
+//             int count = 0;
+//             //"c1-c-c-c1-c-c2-c-c-c2"
+//             //"h=c-(h-(x-(n)))-(y)-(z-(c))"
+//             //"h=c-(z-(c1-c-c-c-c-c1))"
+//             //c1-c-c-c-c-c1
+//             //Console.Write(res.Length);
+//             // for(int i=res.Length-1;i>=0;i--)
+//             // {
+//             //     if(Char.IsDigit(res[i]))
+//             //     {
+//             //         if(cyclicCompNumber.ContainsKey((int)char.GetNumericValue(res[i]))&&(i>idx))      
+//             //         {
+//             //             //TO BE DONE!
+//             //             graph.addEdge(cyclicCompNumber[(int)char.GetNumericValue(res[i])],i-1,1);
+//             //         }
+//             //     }
+//             // }
+
+//             for(int i=0;i<res.Count();i++)
+//             {
+//                 if(char.IsDigit(res[i]))
+//                 {
+//                     for(int j=i+1;j<res.Count();j++)
+//                     {
+//                         if(res[i]==res[j]) graph.addEdge(i-1,j-1,1);
+//                     }
+//                 }
+//             }
+
+//             //TRAVERSE THROUGH THE CHARACTER ARRAY AND INITIATE THE EDGE-WEIGHTS 
+//             for(int i=0;i<res.Count();i++)
+//             {   
+//                 if(res[i]==')')
+//                 {
+//                     count--;
+//                 }
+//                 if((res[i]=='(')&&(res[i-2]!=')'))
+//                 {
+//                     arr[count] = i-2;
+//                     count++;
+//                 } 
+//                 if((res[i]=='-')&&(res[i-1]!=('('))&&(res[i+1]!=(')')))
+//                 {
+//                     // graph.addEdge(i-1,i+1,1);
+//                     if(char.IsDigit(res[i-1]))
+//                     {
+//                         graph.addEdge(i-2,i+1,1);
+//                     }
+//                     else
+//                     {
+//                         graph.addEdge(i-1,i+1,1);
+//                     }
+//                 }
+//                 if((res[i]=='=')&&(res[i-1]!=('('))&&(res[i+1]!=(')')))
+//                 {
+//                     //graph.addEdge(i-1,i+1,2);
+//                     if(char.IsDigit(res[i-1]))
+//                     {
+//                         graph.addEdge(i-2,i+1,2);
+//                     }
+//                     else
+//                     {
+//                         graph.addEdge(i-1,i+1,2);
+//                     }
+//                 }
+//                 if((res[i]=='#')&&(res[i-1]!=('('))&&(res[i+1]!=(')')))
+//                 {
+//                     //graph.addEdge(i-1,i+1,3);
+//                     if(char.IsDigit(res[i-1]))
+//                     {
+//                         graph.addEdge(i-2,i+1,3);
+//                     }
+//                     else
+//                     {
+//                         graph.addEdge(i-1,i+1,3);
+//                     }
+//                 }
+//                 if((res[i]=='(')&&(res[i-2]==')'))
+//                 {
+//                     int bond = graph.findindexvalues(i,1);
+//                     graph.addEdge(arr[count++],i+1,bond);
+//                 }
+//                 else if((res[i]=='(')&&(res[i-2]!=')'))
+//                 {
+//                     int bond = graph.findindexvalues(i,1);
+//                     graph.addEdge(i-2,i+1,bond);
+//                 }
+//             }
+//             Console.WriteLine();
+// //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//             //PRINTING THE GRAPH
+//             foreach (var x in graph.adjacencyList)
+//             {
+//                 foreach (KeyValuePair<int, int> y in x.Value)
+//                 {
+//                     Console.WriteLine("vertex " + x.Key + " ---> " + y.Key + ": "+y.Value);
+//                 }
+//             }
+// //----------------------------------------------------------------------------------------------------------------------------------------------------
+//         }
+//     }
+// }
+
+//raid 2
+// using System;
+// using System.Collections;
+// using System.Collections.Generic;
+// using System.Linq;
+// using System.Text;
+// using System.Threading.Tasks;
+// namespace xyz
+// {
+//     class WeightedGraph
+//     {
+//         //INPUT SMILES
+//         //c1-c-c2-c-c-c-c-c2-c-c1
+//         static string sb = "C-C(=O)(=C)"; 
+//         //CONVERTING THE INPUT SMILES STRING INTO CHARACTER ARRAY-->RES
+//         //FOR EASY TRAVERSAL
+//         static char[] res = sb.ToCharArray();
+//         //ADJACENCY LIST CONTAINING FOR GRAPH NODES CONNECTIONS
+//         public Dictionary<int, Dictionary<int, int>> adjacencyList;
+//         //CONSTRUCTOR 
+//         public WeightedGraph()
+//         {
+//             this.adjacencyList = new Dictionary<int , Dictionary<int, int>>(){};
+//         }
+//         //VERTEX CREATION-->Add new vertex
+//         public void addVertex(int vertex) 
+//         {
+//             if (!this.adjacencyList.ContainsKey(vertex))
+//             {
+//                 this.adjacencyList.Add(vertex, new Dictionary<int, int>());
+//             }
+//             else
+//             {
+//                 Console.WriteLine("this vertex is in use");
+//             }
+//         }
+//         //CREATION OF EDGES BETWEEN NODES--> New edge between 2 vertices
+//         public void addEdge(int v1, int v2, int weight) 
+//         {
+//             if (this.adjacencyList.ContainsKey(v1) && this.adjacencyList.ContainsKey(v2))
+//             {
+//                 this.adjacencyList[v1].Add(v2, weight);
+//                 this.adjacencyList[v2].Add(v1, weight);
+//             }
+//             else
+//             {
+//                 Console.WriteLine("Error: Vertex does not exist");
+//             }
+//         }
+//         //findindexvalues-->USED FOR FINDING THE BOND BEFORE THE GIVEN INDEX
+//         public int findindexvalues(int idx,int logic)
+//         {
+//             int bond=0;
+//             if(logic==1)
+//             {
+//                 if (res[idx-1] == ('-') ){
+//                 bond=1;
+//             }
+//             else if(res[idx-1]==('=')){
+//                 bond=2;
+//             }        
+//             else if(res[idx-1]==('#')){
+//                 bond=3;
+//             }    
+//             }
+//             if(logic==0)
+//             {
+//                 if (res[idx+1] == ('-') ){
+//                 bond=1;
+//             }
+//             else if(res[idx+1]==('=')){
+//                 bond=2;
+//             }        
+//             else if(res[idx+1]==('#')){
+//                 bond=3;
+//             }    
+//             }
+//             return bond;
+//         }
+//         //MAIN METHOD
+//         static void Main(string[] args)
+//         {
+//             //CREATING OBJECT 
+//             WeightedGraph graph = new WeightedGraph();
+// //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//             // CREATING A LIST WITHOUT ANY BONDS
+//             var res2 = new ArrayList();
+//             // Dictionary<int, int> cyclicCompNumber =  new Dictionary<int, int>();
+            
+//             ///////////////''
+//             // int idx = 0;
+//             // for(int i=0;i<res.Length;i++)
+//             // {   
+//             //     if(Char.IsDigit(res[i]))
+//             //     {
+//             //         if(cyclicCompNumber.ContainsKey((int)char.GetNumericValue(res[i])))
+//             //         {
+//             //             continue;
+//             //         }
+//             //         else
+//             //         {
+//             //             cyclicCompNumber.Add((int)char.GetNumericValue(res[i]),i-1);
+//             //             idx = i;
+//             //         }
+//             //     }
+//             // }
+//             // foreach(KeyValuePair<int,int> x in cyclicCompNumber)
+//             // {
+//             //     Console.WriteLine("{0} : {1}",x.Key,x.Value);
+//             // }
+//             //Console.WriteLine(idx);
+ 
+//             /////////\
+
+//             for (int i = 0; i < res.Length; i++)
+//             {
+//                 if (res[i] == ('-') || res[i] == ('=') || res[i] == ('#') || res[i] == ('(') || res[i] == (')') || Char.IsDigit(res[i]))
+//                 {
+//                     continue;
+//                 }
+//                 else 
+//                 {
+//                     res2.Add(res[i]);
+//                     graph.addVertex(i);
+//                 }
+//             }            
+// //--------------------------------------------------------------------------------------------------------------------------------------------------------
+//             //PRINT THE LIST RES-->CONTAINS INPUT SMILES IN CHARACTER ARRAY FORM
+//             for(int i=0;i<res.Length;i++)
+//             {
+//                 Console.Write(res[i]+" ");
+//             }
+
+//             Console.WriteLine();
+
+//             //PRINT THE LIST RES2-->CONTAINS THE ELEMENTS IN THE INPUT SMILES
+//             for(int i=0;i<res2.Count;i++){
+//                 Console.Write(res2[i]+" ");
+//             }
+// //---------------------------------------------------------------------------------------------------------------------------------------------------------------
+//             //DUMMY
+//             int[] arr = new int[100];
+//             int count = 0;
+//             //"c1-c-c-c1-c-c2-c-c-c2"
+//             //"h=c-(h-(x-(n)))(-y)-(z-(c))"
+//             //"h=c-(z-(c1-c-c-c-c-c1))"
+//             //c1-c-c-c-c-c1
+//             //Console.Write(res.Length);
+//             // for(int i=res.Length-1;i>=0;i--)
+//             // {
+//             //     if(Char.IsDigit(res[i]))
+//             //     {
+//             //         if(cyclicCompNumber.ContainsKey((int)char.GetNumericValue(res[i]))&&(i>idx))      
+//             //         {
+//             //             //TO BE DONE!
+//             //             graph.addEdge(cyclicCompNumber[(int)char.GetNumericValue(res[i])],i-1,1);
+//             //         }
+//             //     }
+//             // }
+//             // ()()      
+
+//             for(int i=0;i<res.Count();i++)
+//             {
+//                 if(char.IsDigit(res[i]))
+//                 {
+//                     for(int j=i+1;j<res.Count();j++)
+//                     {
+//                         if(res[i]==res[j]) graph.addEdge(i-1,j-1,1);
+//                     }
+//                 }
+//             }
+
+//             //TRAVERSE THROUGH THE CHARACTER ARRAY AND INITIATE THE EDGE-WEIGHTS 
+//             for(int i=0;i<res.Count();i++)
+//             {   
+//                  //"h=c(-h(-x(-n)))(-y)(-z(-c))"
+//                 // (-c   c#c    -     c1-c   ///h=c(-h(#x(-n)))(-x)
+//                 //  ))     )(
+//                 //  x(-y)(-z)-
+//                 if((res[i]==')'))
+//                 {
+//                     count--;
+//                     if(i!=res.Length-1)
+//                     {
+//                         if((res[i+1]=='-' || res[i+1]=='=' || res[i+1]=='#'))
+//                         {
+//                         int bond = graph.findindexvalues(i,0);
+//                         graph.addEdge(i+2,arr[count],bond);
+//                         }
+//                     }
+//                     // if(res[i+1]=='=') graph.addEdge(i+2,arr[count],bond);
+//                     // if(res[i+1]=='#') graph.addEdge(i+2,arr[count],bond);
+//                 }
+//                 if((res[i]=='(')&&(res[i-1]!=')'))
+//                 {
+//                     arr[count] = i-1;//c->index
+//                     count++;
+//                 } 
+//                 //  c-c-c
+//                 //   ||
+//                 //   0
+//                 if((res[i]=='-')&&(res[i-1]!=('('))&&(res[i-1]!=(')')))
+//                 {
+//                     // graph.addEdge(i-1,i+1,1);
+//                     if(char.IsDigit(res[i-1]))
+//                     {
+//                         graph.addEdge(i-2,i+1,1);
+//                     }
+//                     else
+//                     {
+//                         graph.addEdge(i-1,i+1,1);
+//                     }
+//                 }
+//                 if((res[i]=='=')&&(res[i-1]!=('('))&&(res[i-1]!=(')')))
+//                 {
+//                     //graph.addEdge(i-1,i+1,2);
+//                     if(char.IsDigit(res[i-1]))
+//                     {
+//                         graph.addEdge(i-2,i+1,2);
+//                     }
+//                     else
+//                     {
+//                         graph.addEdge(i-1,i+1,2);
+//                     }
+//                 }
+//                 if((res[i]=='#')&&(res[i-1]!=('('))&&(res[i-1]!=(')')))
+//                 {
+//                     //graph.addEdge(i-1,i+1,3);
+//                     if(char.IsDigit(res[i-1]))
+//                     {
+//                         graph.addEdge(i-2,i+1,3);
+//                     }
+//                     else
+//                     {
+//                         graph.addEdge(i-1,i+1,3);
+//                     }
+//                 }
+//                 //c(-h)(-h)-c
+//                 if((res[i]=='(')&&(res[i-1]==')'))
+//                 {
+//                     int bond = graph.findindexvalues(i,0);
+//                     graph.addEdge(arr[count++],i+2,bond);
+//                 }
+//                 //0->right
+//                 //1->left
+//                 else if((res[i]=='(')&&(res[i-1]!=')'))
+//                 {
+//                     int bond = graph.findindexvalues(i,0);
+//                     graph.addEdge(i-1,i+2,bond);
+//                 }
+    
+//             }
+//             Console.WriteLine();
+// //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//             //PRINTING THE GRAPH
+//             foreach (var x in graph.adjacencyList)
+//             {
+//                 foreach (KeyValuePair<int, int> y in x.Value)
+//                 {
+//                     Console.WriteLine("vertex " + x.Key + " ---> " + y.Key + ": "+y.Value);
+//                 }
+//             }
+// //----------------------------------------------------------------------------------------------------------------------------------------------------
+//         }
+//     }
+// }
+
+//newnewneenwenwne
+
+// if ((input[i] != ('-')) || (input[i] != ('=')) || (input[i] != ('#')) )
+//                     {
+//                         //implicitHydrogenBond[i]=-1;
+//                         // valency = (int)(Elements[input[i]] - (bonds[input[i - 1]] + bonds[input[i + 1]]));
+//                         // implicitHydrogenBond[i]=valency;
+                        
+//                     }
+//                     else if((input[i] == ('(')) || (input[i] == (')')))
+//                     {
+//                         // implicitHydrogenBond[i]=-2;
+//                         // c(-c)(=c)
+
+//                     }
+//                     else if(Char.IsDigit(input[i]))
+//                     {
+//                         implicitHydrogenBond[i]=-3;
+
+//                         for(int j=i+1;j<res.Count();j++)
+//                         {
+//                             if(input[i]==input[j])
+//                             {
+
+//                             }
+//                         }
+//                     }
+//                     else 
+//                     {
+                        
+//                     }
+
+//new commit
+// //CHECK/LOGIC FOR BONDS --> " - " --> SINGLE BOND
+                // if((res[i]=='-')&&(res[i-1]!=('('))&&(res[i-1]!=(')')))
+                // {
+                //     if(char.IsDigit(res[i-1]))
+                //     {
+                //         graph.addEdge(i-2,i+1,1);
+                //     }
+                //     else
+                //     {
+                //         graph.addEdge(i-1,i+1,1);
+                //     }
+                // }
+                // //CHECK/LOGIC FOR BONDS --> " = " --> DOUBLE BOND
+                // if((res[i]=='=')&&(res[i-1]!=('('))&&(res[i-1]!=(')')))
+                // {
+                //     if(char.IsDigit(res[i-1]))
+                //     {
+                //         graph.addEdge(i-2,i+1,2);
+                //     }
+                //     else
+                //     {
+                //         graph.addEdge(i-1,i+1,2);
+                //     }
+                // }
+                // //CHECK/LOGIC FOR BONDS --> " # " --> TRIPLE BOND
+                // if((res[i]=='#')&&(res[i-1]!=('('))&&(res[i-1]!=(')')))
+                // {
+                //     if(char.IsDigit(res[i-1]))
+                //     {
+                //         graph.addEdge(i-2,i+1,3);
+                //     }
+                //     else
+                //     {
+                //         graph.addEdge(i-1,i+1,3);
+                //     }
+                // }
+
+//new one 16/01/2023
+// static void adjacencyMatrix(int size)
+        // {
+        //     //int Matrix_size = graph.adjacencyList.Count;
+        //     //int Matrix_size = res.Length; 
+        //     int[,] arr = new int[size+1,size+1];
+        //     //     c-c-c-c
+        //     //     0 2 4 6  
+        //     //       0 2 4 6
+        //     //     0[        ]
+        //     //     2[        ]
+        //     //     4[        ]
+        //     //     6[        ]
+        //     //
+        //     //
+        //     int m =1,n=1;
+        //     // arr[0,1]=0;
+        //     // arr[1,0]=0;
+        //     foreach(var x in graph.adjacencyList)
+        //     {
+        //         if((m<=size+1)||(n<=size+1))
+        //         {
+        //             arr[m,0]=x.Key;
+        //             arr[0,n]=x.Key;
+        //             m++;n++;
+        //         }
+        //     }
+        //     for(int i=0;i<size+1;i++)
+        //     {
+        //         Console.WriteLine();
+        //         for(int j=0;j<size+1;j++)
+        //         {
+        //             Console.Write(arr[i,j]+" ");
+        //         }
+        //     }
+        //     foreach(var x in graph.adjacencyList)
+        //     {
+        //         foreach(KeyValuePair<int, int> y in x.Value)
+        //         {
+        //             // arr[x.Key,y.Key] = 1;
+        //             for(int i=0;i<m;i++){
+        //                 if(y.Key==arr[m,i]) arr[m,i]=1;
+        //             }
+                    
+        //         }
+        //     }
+        //     for(int i=0;i<size+1;i++)
+        //     {
+        //         Console.WriteLine();
+        //         for(int j=0;j<size+1;j++)
+        //         {
+        //             Console.Write(arr[i,j]+" ");
+        //         }
+        //     }
+        // }
+
+
+
+
+
+
+
+
+
+
+
+
+// new raid --> 16/1/23
+// using System;
+// using System.Collections;
+// using System.Collections.Generic;
+// using System.Linq;
+// using System.Text;
+// using System.Threading.Tasks;
+// namespace xyz
+// {
+//     class WeightedGraph
+//     {
+//         //INPUT SMILES
+//         static string sb = "C-Br(-C)-C-C"; 
+//         //CONVERTING THE INPUT SMILES STRING INTO CHARACTER ARRAY-->RES
+//         //FOR EASY TRAVERSAL
+//         static char[] res = sb.ToCharArray();
+//         //ADJACENCY LIST CONTAINING FOR GRAPH NODES CONNECTIONS
+//         public Dictionary<int, Dictionary<int, int>> adjacencyList;
+        
+//         //CREATING OBJECT 
+//         static WeightedGraph graph = new WeightedGraph();
+
+//         public Dictionary<int,int> HydrogenCount;
+//         static int[] implicitHydrogen = new int[sb.Length];
+//         //readonly
+//         public static readonly Dictionary<string,int> Elements = new Dictionary<string, int>()
+//         {
+//             {"H",1},{"He",2},{"Li",1},{"Be",2},{"B",3},{"C",4},{"N",5},
+// 	        {"O",6},{"F",7},{"Ne",8},{"Na",1},{"Mg",2},{"Al",3},{"Si",5},
+//             {"P",5},{"S",6},{"Cl",7},{"Ar",8},{"K",1},{"Ca",2},{"Sc",3},
+//             {"Ti",4},{"V",5},{"Cr",6},{"Mn",7},{"Fe",8},{"Co",9},{"Ni",10},
+//             {"Cu",11},{"Zn",12},{"Ga",3},{"Ge",3},{"As",5},{"Se",6},{"Br",7},
+//             {"Kr",8},{"Rb",1},{"Sr",2},{"Y",3},{"Zr",4},{"Nb",5},{"Mo",6},
+//             {"Tc",7},{"Ru",8},{"Rh",9},{"Pd",10},{"Ag",11},{"Cd",12},{"In",3},
+//             {"Sn",4},{"Sb",5},{"Te",6},{"I",10},{"Xe",8},{"Cs",1},{"Ba",2},
+//             {"La",3},{"Ce",4},{"Pr",5},{"Nd",6},{"Pm",7},{"Sm",8},{"Eu",9},
+//             {"Gd",10},{"Tb",11},{"Dy",12},{"Ho",13},{"Er",14},{"Tm",15},{"Yb",16},
+//             {"Lu",3},{"Hf",4},{"Ta",5},{"W",6},{"Re",7},{"Os",8},{"Ir",9},
+//             {"Pt",10},{"Au",11},{"Hg",12},{"Pb",4},{"Bi",5},{"Po",6},
+//             {"At",7},{"Rn",8},{"Fr",1},{"Ra",2},{"Ac",3},{"Th",4},{"Pa",5},
+//             {"U",6},{"Np",7},{"Pu",8},{"Am",9},{"Cm",10},{"Bk",11},{"Cf",12},
+//             {"Es",13},{"Fm",14},{"Md",15},{"No",16},{"Lr",3},{"Rf",4},{"Db",5},
+//             {"Sg",6},{"Bh",7},{"Hs",8},{"Mt",9},{"Ds",10},{"Rg",11},{"Cn",12},
+//             {"Nh",3},{"Fl",4},{"Mc",5},{"Lv",6},{"Ts",7},{"Og",8}
+//             //,{"Ti",3}
+//         };
+//         public static readonly Dictionary<char,int> bonds = new Dictionary<char, int>()
+//         {
+//             {'-',1},{'=',2},{'#',3},{'$', 4},{'.', 0}
+//             // {':',1.5},
+//         };
+
+//         // public static readonly Dictionary<char,int> organicSubset = new Dictionary<String, int>()
+//         // {//B, C, N, O, P, S, F, Cl, Br, and I
+//         //     //{"B",3},{"C",4},{"O",2},{"P",5},{"P",3},{'S',6},{'S',4},{'S',2},{'F',1},{'Cl',1},{'Br',1},{'I',}
+//         // }
+
+//         //CONSTRUCTOR 
+//         public WeightedGraph()
+//         {
+//             this.adjacencyList = new Dictionary<int , Dictionary<int, int>>(){};
+//             this.HydrogenCount = new Dictionary<int, int>(){};
+//         }
+//         //VERTEX CREATION-->Add new vertex
+//         public void addVertex(int vertex) 
+//         {
+//             if (!this.adjacencyList.ContainsKey(vertex))
+//             {
+//                 this.adjacencyList.Add(vertex, new Dictionary<int, int>());
+//             }
+//             else
+//             {
+//                 Console.WriteLine("this vertex is in use");
+//             }
+//         }
+//         //CREATION OF EDGES BETWEEN NODES--> New edge between 2 vertices
+//         public void addEdge(int v1, int v2, int weight) 
+//         {
+//             if (this.adjacencyList.ContainsKey(v1) && this.adjacencyList.ContainsKey(v2))
+//             {
+//                 this.adjacencyList[v1].Add(v2, weight);
+//                 this.adjacencyList[v2].Add(v1, weight);
+//             }
+//             else
+//             {
+//                 Console.WriteLine("Error: Vertex does not exist");
+//             }
+//         }
+//         //findindexvalues-->USED FOR FINDING THE BOND BEFORE THE GIVEN INDEX
+//         public int findindexvalues(int idx,int logic)
+//         {
+//             int bond=0;
+//             if(logic==1) bond = bonds[res[idx-1]];
+//             if(logic==0) bond = bonds[res[idx+1]];
+//             return bond;
+//         }
+//         static void implicitHydrogenIndex()
+//         {
+//             int valency=0;
+//             int bondsCount=0;
+//             int element= 0;
+//             foreach (var x in graph.adjacencyList)
+//             {
+//                 valency=0;
+//                 bondsCount=0;
+//                 // if(Elements[char.ToString(res[x.Key])])
+//                 //cl
+//                 //0
+//                 //z=c && l=l
+
+//                 //          cl
+//                 //          01    
+//                 //          x.key-->0  ;  z=c ; l=l ; new1=cl ; if(Elements.containsKey(cl)) element=
+//                 //
+//                 //
+//                 string z = char.ToString(res[x.Key]);
+//                 string l ="";
+//                 bool isit = false;
+//                 if(x.Key<res.Length-1) 
+//                 {
+//                     l = char.ToString(res[x.Key+1]);
+//                 }
+//                 string new1 = string.Join("",z,l);
+//                 if(Elements.ContainsKey(new1)) isit=true;
+//                 if(isit==false)
+//                 {
+//                     element=Elements[char.ToString(res[x.Key])];
+//                 }
+//                 else
+//                 {
+//                         element=Elements[new1];
+//                 }
+//                 foreach(KeyValuePair<int, int> y in x.Value)
+//                 {
+//                     bondsCount+=y.Value;
+//                 }
+//                 valency=element-bondsCount;
+//                 graph.HydrogenCount.Add(x.Key,valency);
+//             }
+//             foreach(KeyValuePair<int, int> ele in graph.HydrogenCount)
+//             {
+//                 Console.WriteLine(ele.Key +"-->"+ ele.Value);
+//             }
+//         }
+//         static void adjacencyMatrix(int size)
+//         {
+//             //int Matrix_size = graph.adjacencyList.Count;
+//             int Matrix_size = res.Length; 
+//             int[,] arr = new int[Matrix_size,Matrix_size];
+//             int sum1=0;
+//             int[,] nums = new int[size,size];
+//             int[] arr1 = new int[Matrix_size];
+//             int n=0,m=0;
+
+//             foreach(var x in graph.adjacencyList)
+//             {
+//                 foreach(KeyValuePair<int, int> y in x.Value)
+//                 {
+//                     arr[x.Key,y.Key] = 1;
+//                 }
+//             }
+
+//             for(int i=0;i<Matrix_size;i++)
+//             {
+//                 sum1=0;
+//                 for(int j=0;j<Matrix_size;j++)
+//                 {
+//                     sum1=sum1+arr[i,j];
+//                 }
+//                 if(sum1!=0) arr1[i]=1;
+//             }
+//             for(int i=0;i<arr1.Length;i++) Console.Write(arr1[i]+" ");
+//             Console.WriteLine();
+//             for(int i=0;i<Matrix_size;i++)
+//             {
+//                 if(arr1[i]!=0)
+//                 {
+//                     n=0;
+//                     for(int j=0;j<Matrix_size;j++)
+//                     {
+//                         if(arr1[j]!=0) 
+//                         {
+//                             nums[m,n]=arr[i,j];
+//                             n++;
+//                         }
+//                     }
+//                     m++;
+//                 }
+//             }
+//             Console.WriteLine();
+//             for(int i=0;i<size;i++)
+//             {
+//                 for(int j=0;j<size;j++)
+//                 {
+//                     Console.Write(nums[i,j]+" ");
+//                 }
+//                 Console.WriteLine();
+//             }
+//         }
+//         //MAIN METHOD
+//         static void Main(string[] args)
+//         {
+
+//             // CREATING A LIST WITHOUT ANY BONDS
+//             var res2 = new ArrayList();
+
+//             for (int i = 0; i < res.Length; i++)
+//             {
+//                 //|| (char.IsLower(res[i]))
+//                 if(bonds.ContainsKey(res[i]) || (res[i] == ('(')) || (res[i] == (')')) || Char.IsDigit(res[i]))
+//                 {
+//                     continue;
+//                 }
+//                 else 
+//                 {
+//                     if(char.IsLower(res[i]))
+//                     {
+//                         if(graph.adjacencyList.ContainsKey(i-1)) continue;
+//                         else
+//                         {
+//                             res2.Add(res[i-1]);
+//                             Console.Write(i-1+" ");
+//                             graph.addVertex(i-1);
+//                         }
+//                     }
+//                     else
+//                     {
+//                         res2.Add(res[i]);
+//                         Console.Write(i+" ");
+//                         graph.addVertex(i);
+//                     }
+//                 }
+//             }    
+
+//             Console.WriteLine();     
+
+//             //PRINT THE LIST RES-->CONTAINS INPUT SMILES IN CHARACTER ARRAY FORM
+//             for(int i=0;i<res.Length;i++)
+//             {
+//                 Console.Write(res[i]+" ");
+//             }
+
+//             Console.WriteLine();
+
+//             //PRINT THE LIST RES2-->CONTAINS THE ELEMENTS IN THE INPUT SMILES
+//             for(int i=0;i<res2.Count;i++){
+//                 Console.Write(res2[i]+" ");
+//             }
+
+//             //DUMMY-->used for branch calcs
+//             int[] arr = new int[100];
+//             int count = 0;     
+
+//             //TRAVERSE THROUGH THE CHARACTER ARRAY AND INITIATE THE EDGE-WEIGHTS 
+//             for(int i=0;i<res.Count();i++)
+//             {   
+//                 //CHECK/LOGIC FOR RING STRUCTURES IN THE INPUT SMILES
+//                 if(char.IsDigit(res[i]))
+//                 {
+//                     //int idx1=i,idx2=i+1;
+//                     for(int j=i+1;j<res.Count();j++)
+//                     {
+//                         //idx2=j;
+//                         if(res[i]==res[j])//break;
+//                         {
+//                             if(char.IsLower(res[i-1])&&(char.IsLower(res[j-1]))) graph.addEdge(i-2,j-2,1);
+//                             else if(char.IsLower(res[i-1])) graph.addEdge(i-2,j-1,1);
+//                             else if(char.IsLower(res[j-1])) graph.addEdge(i-1,j-2,1);
+//                             else graph.addEdge(i-1,j-1,1);        
+//                         }
+//                         //graph.addEdge(i-1,j-1,1);
+//                     }
+//                 }
+//                 //CHECK/LOGIC FOR BRANCH STRUCTURES IN INPUT SMILES NOTATION
+//                 if((res[i]==')'))
+//                 {
+//                     count--;
+//                     if(i!=res.Length-1)
+//                     {
+//                         if(bonds.ContainsKey(res[i+1]))
+//                         {
+//                             int bond = graph.findindexvalues(i,0);
+//                             graph.addEdge(i+2,arr[count],bond);
+//                         }
+//                     }
+//                 }
+//                 if((res[i]=='(')&&(res[i-1]!=')'))
+//                 {
+//                     if(char.IsLower(res[i-1]))
+//                     {
+//                         arr[count] = i-2;
+//                     }
+//                     else 
+//                     {
+//                         arr[count] = i-1;
+//                     }
+//                     count++;
+//                 } 
+//                 if((res[i]=='(')&&(res[i-1]==')'))
+//                 {
+//                     int bond = graph.findindexvalues(i,0);
+//                     graph.addEdge(arr[count++],i+2,bond);
+//                 }
+//                 else if((res[i]=='(')&&(res[i-1]!=')'))
+//                 {
+//                     int bond = graph.findindexvalues(i,0);
+//                     // graph.addEdge(i-1,i+2,bond);
+//                     if(char.IsLower(res[i-1]))
+//                     {
+//                         graph.addEdge(i-2,i+2,bond);
+//                     }
+//                     else
+//                     {
+//                         graph.addEdge(i-1,i+2,bond);
+//                     }
+//                 }
+//                 //CHECK/LOGIC FOR BONDS IN INPUT SMILES NOTATION
+//                 if((bonds.ContainsKey(res[i]))&&(res[i-1]!=('('))&&(res[i-1]!=(')')))
+//                 {
+//                     if(char.IsDigit(res[i-1]))
+//                     {
+//                         if(char.IsLower(res[i-2]))
+//                         {
+//                             graph.addEdge(i-3,i+1,bonds[res[i]]);
+//                         }
+//                         else
+//                         {
+//                             graph.addEdge(i-2,i+1,bonds[res[i]]);
+//                         }
+//                         //graph.addEdge(i-2,i+1,bonds[res[i]]);
+//                     }
+//                     else
+//                     {
+//                         //graph.addEdge(i-1,i+1,bonds[res[i]]);
+//                         if(char.IsLower(res[i-1]))
+//                         {
+//                             graph.addEdge(i-2,i+1,bonds[res[i]]);
+//                         }
+//                         else
+//                         {
+//                             graph.addEdge(i-1,i+1,bonds[res[i]]);
+//                         }
+//                     }
+//                 }
+//             }
+
+//             //IMPLICIT HYDROGEN INITIALIZATION
+//             implicitHydrogenIndex();
+//             //ADJACENCY MATRIX GENERATION
+//             adjacencyMatrix(res2.Count);
+
+//             //Console.WriteLine();
+
+//             //PRINTING THE GRAPH
+//             // foreach (var x in graph.adjacencyList)
+//             // { 
+//             //     Console.WriteLine(x.Key);
+//             //     foreach (KeyValuePair<int, int> y in x.Value)
+//             //     {
+//             //         Console.WriteLine("vertex " + x.Key + " ---> " + y.Key + ": "+y.Value);
+//             //     }
+//             // }
+//         }
+//     }
+// }
+
+// nearly complete
+
+
+
+// using System;
+// using System.Collections;
+// using System.Collections.Generic;
+// using System.Linq;
+// using System.Text;
+// using System.Threading.Tasks;
+// namespace xyz
+// {
+//     class WeightedGraph
+//     {
+//         //INPUT SMILES
+//         static string sb = "C-C(-Cl-C(=O)=O)(-C1-Cl-C-C1)"; 
+
+//         //CONVERTING THE INPUT SMILES STRING INTO CHARACTER ARRAY-->RES
+//         //FOR EASY TRAVERSAL
+//         static char[] res = sb.ToCharArray();
+
+//         //ADJACENCY LIST CONTAINING FOR GRAPH NODES CONNECTIONS
+//         public Dictionary<int, Dictionary<int, int>> adjacencyList;
+
+//         //CREATING OBJECT <GRAPH> 
+//         static WeightedGraph graph = new WeightedGraph();
+
+//         //USED FOR STORING THE IMPLICIT HYDROGENS COUNT 
+//         // HydrogenCount --> < INDEX_VALUE , NUMBER OF IMPLICIT HYDROGENS >
+//         public Dictionary<int,int> HydrogenCount;
+        
+//        //readonly
+//        // Elements --> CONTAINS ALL THE < ELEMENT_NAME , VALENCE_ELECTRONS > PAIR
+//         public static readonly Dictionary<string,int> Elements = new Dictionary<string, int>()
+//         {
+//             {"H",1},{"He",2},{"Li",1},{"Be",2},{"B",3},{"C",4},{"N",5},
+// 	        {"O",6},{"F",7},{"Ne",8},{"Na",1},{"Mg",2},{"Al",3},{"Si",5},
+//             {"P",5},{"S",6},{"Cl",7},{"Ar",8},{"K",1},{"Ca",2},{"Sc",3},
+//             {"Ti",4},{"V",5},{"Cr",6},{"Mn",7},{"Fe",8},{"Co",9},{"Ni",10},
+//             {"Cu",11},{"Zn",12},{"Ga",3},{"Ge",3},{"As",5},{"Se",6},{"Br",7},
+//             {"Kr",8},{"Rb",1},{"Sr",2},{"Y",3},{"Zr",4},{"Nb",5},{"Mo",6},
+//             {"Tc",7},{"Ru",8},{"Rh",9},{"Pd",10},{"Ag",11},{"Cd",12},{"In",3},
+//             {"Sn",4},{"Sb",5},{"Te",6},{"I",10},{"Xe",8},{"Cs",1},{"Ba",2},
+//             {"La",3},{"Ce",4},{"Pr",5},{"Nd",6},{"Pm",7},{"Sm",8},{"Eu",9},
+//             {"Gd",10},{"Tb",11},{"Dy",12},{"Ho",13},{"Er",14},{"Tm",15},{"Yb",16},
+//             {"Lu",3},{"Hf",4},{"Ta",5},{"W",6},{"Re",7},{"Os",8},{"Ir",9},
+//             {"Pt",10},{"Au",11},{"Hg",12},{"Pb",4},{"Bi",5},{"Po",6},
+//             {"At",7},{"Rn",8},{"Fr",1},{"Ra",2},{"Ac",3},{"Th",4},{"Pa",5},
+//             {"U",6},{"Np",7},{"Pu",8},{"Am",9},{"Cm",10},{"Bk",11},{"Cf",12},
+//             {"Es",13},{"Fm",14},{"Md",15},{"No",16},{"Lr",3},{"Rf",4},{"Db",5},
+//             {"Sg",6},{"Bh",7},{"Hs",8},{"Mt",9},{"Ds",10},{"Rg",11},{"Cn",12},
+//             {"Nh",3},{"Fl",4},{"Mc",5},{"Lv",6},{"Ts",7},{"Og",8}
+//             //,{"Ti",3}
+//         };
+//         // bonds --> CONTAINS ALL THE <BOND,BOND_VALUE> PAIRS
+//         public static readonly Dictionary<char,int> bonds = new Dictionary<char, int>()
+//         {
+//             {'-',1},{'=',2},{'#',3},{'$', 4},{'.', 0},{':',1}
+//         };
+
+//         // public static readonly Dictionary<string,int> organicSubset = new Dictionary<String, int>()
+//         // {
+//         //     //B, C, N, O, P, S, F, Cl, Br, and I
+//         //     {"B",3},{"C",4},{"O",6},{"N",5},{"P",5},{"S'",6},{"S",4},{"S",2},{"F",1},{"Cl",1},{"Br",1},{"I",1}
+//         // };
+
+//         //CONSTRUCTOR 
+//         public WeightedGraph()
+//         {
+//             //INITIALIZING adjacencyList AND HydrogenCount AS EMPTY LISTS
+//             this.adjacencyList = new Dictionary<int , Dictionary<int, int>>(){};
+//             this.HydrogenCount = new Dictionary<int, int>(){};
+//         }
+//         //VERTEX CREATION-->Add new vertex
+//         public void addVertex(int vertex) 
+//         {
+//             if(!this.adjacencyList.ContainsKey(vertex))
+//             {
+//                 this.adjacencyList.Add(vertex, new Dictionary<int, int>());
+//             }
+//             else
+//             {
+//                 Console.WriteLine("this vertex is in use");
+//             }
+//         }
+//         //CREATION OF EDGES BETWEEN NODES--> New edge between 2 vertices
+//         public void addEdge(int v1, int v2, int weight) 
+//         {
+//             if (this.adjacencyList.ContainsKey(v1) && this.adjacencyList.ContainsKey(v2))
+//             {
+//                 this.adjacencyList[v1].Add(v2, weight);
+//                 this.adjacencyList[v2].Add(v1, weight);
+//             }
+//             else
+//             {
+//                 Console.WriteLine("Error: Vertex does not exist");
+//             }
+//         }
+//         //findindexvalues-->USED FOR FINDING THE BOND BEFORE/AFTER THE GIVEN INDEX
+//         public int findindexvalues(int idx,int logic)
+//         {
+//             int bond=0;
+//             if(logic==1) bond = bonds[res[idx-1]];
+//             if(logic==0) bond = bonds[res[idx+1]];
+//             return bond;
+//         }
+//         //implicitHydrogenIndex--> CALCULATES THE IMPLICIT HYDROGEN COUNT OF EACH ELEMENT AND ADDS IT TO THE HydrogenCount DICTIONARY
+//         static void implicitHydrogenIndex()
+//         {
+//             int valency=0;
+//             int bondsCount=0;
+//             int element= 0;
+//             string firstLetter = "";
+//             string secondLetter = "";
+//             bool isit =false;
+//             foreach (var x in graph.adjacencyList)
+//             {
+//                 valency=0;
+//                 bondsCount=0;
+//                 firstLetter = char.ToString(res[x.Key]);
+//                 secondLetter = "";
+//                 isit = false;
+//                 if(x.Key<res.Length-1) 
+//                 {
+//                     secondLetter = char.ToString(res[x.Key+1]);
+//                 }
+//                 string newelement = string.Join("",firstLetter,secondLetter);
+//                 if(Elements.ContainsKey(newelement)) isit=true;
+//                 if(isit==false)
+//                 {
+//                     element=Elements[char.ToString(res[x.Key])];
+//                 }
+//                 else
+//                 {
+//                     element=Elements[newelement];
+//                 }
+//                 foreach(KeyValuePair<int, int> y in x.Value)
+//                 {
+//                     bondsCount+=y.Value;
+//                 }
+//                 valency=element-bondsCount;
+//                 graph.HydrogenCount.Add(x.Key,valency);
+//             }
+//             foreach(KeyValuePair<int, int> ele in graph.HydrogenCount)
+//             {
+//                 Console.WriteLine(ele.Key +"-->"+ ele.Value);
+//             }
+//         }
+//         // adjacencyMatrix --> GENERATES THE ADJACENCY MATRIX 
+//         static void adjacencyMatrix(int size)
+//         {
+//             //DUMMY
+//             //size --> NO OF ELEMENTS IN THE GIVEN INPUT SMILES NOTATION
+//             //Matrix_size --> LENGTH OF THE GIVEN INPUT SMILES NOTATION 
+//             int sum1=0,n=0,m=0;
+//             int Matrix_size = res.Length; 
+//             int[,] arr = new int[Matrix_size,Matrix_size];
+//             int[] arr1 = new int[Matrix_size];
+//             int[,] nums = new int[size,size];
+
+//             //GENERATE THE BIG MATRIX
+//             foreach(var x in graph.adjacencyList)
+//             {
+//                 foreach(KeyValuePair<int, int> y in x.Value)
+//                 {
+//                     arr[x.Key,y.Key] = 1;
+//                 }
+//             }
+//             //LOGIC TO REDUCE THE BIG MATRIX TO SMALLER ONE
+//             for(int i=0;i<Matrix_size;i++)
+//             {
+//                 sum1=0;
+//                 for(int j=0;j<Matrix_size;j++)
+//                 {
+//                     sum1=sum1+arr[i,j];
+//                 }
+//                 if(sum1!=0) arr1[i]=1;
+//             }
+
+//             for(int i=0;i<Matrix_size;i++)
+//             {
+//                 if(arr1[i]!=0)
+//                 {
+//                     n=0;
+//                     for(int j=0;j<Matrix_size;j++)
+//                     {
+//                         if(arr1[j]!=0) 
+//                         {
+//                             nums[m,n]=arr[i,j];
+//                             n++;
+//                         }
+//                     }
+//                     m++;
+//                 }
+//             }
+//             //PRINTING THE ADJACENCY MATRIX
+//             for(int i=0;i<size;i++)
+//             {
+//                 for(int j=0;j<size;j++)
+//                 {
+//                     Console.Write(nums[i,j]+" ");
+//                 }
+//                 Console.WriteLine();
+//             }
+//         }
+
+//         //MAIN METHOD
+//         static void Main(string[] args)
+//         {
+//             // CREATING A LIST WITHOUT ANY BONDS
+//             var res2 = new ArrayList();
+
+//             //TRAVERSING THROUGH THE INPUT SMILES NOTATION INITIATING VERTEXES
+//             for (int i = 0; i < res.Length; i++)
+//             {
+//                 if(bonds.ContainsKey(res[i]) || (res[i] == ('(')) || (res[i] == (')')) || Char.IsDigit(res[i]))
+//                 {
+//                     continue;
+//                 }
+//                 else 
+//                 {
+//                     if(char.IsLower(res[i]))
+//                     {
+//                         if(graph.adjacencyList.ContainsKey(i-1)) continue;
+//                         else
+//                         {
+//                             res2.Add(res[i-1]);
+//                             Console.Write(i-1+" ");
+//                             graph.addVertex(i-1);
+//                         }
+//                     }
+//                     else
+//                     {
+//                         res2.Add(res[i]);
+//                         Console.Write(i+" ");
+//                         graph.addVertex(i);
+//                     }
+//                 }
+//             }    
+
+//             Console.WriteLine();     
+
+//             //PRINT THE LIST RES-->CONTAINS INPUT SMILES IN CHARACTER ARRAY FORM
+//             Console.WriteLine("INPUT SMILES :");
+//             for(int i=0;i<res.Length;i++)
+//             {
+//                 Console.Write(res[i]+" ");
+//             }
+
+//             Console.WriteLine();
+
+//             //PRINT THE LIST RES2-->CONTAINS THE ELEMENTS IN THE INPUT SMILES
+//             Console.WriteLine("ELEMENTS :");
+//             for(int i=0;i<res2.Count;i++)
+//             {
+//                 Console.Write(res2[i]+"  ");
+//             }
+
+//             //DUMMY-->used for branch calcs
+//             int[] arr = new int[100];
+//             int count = 0;     
+
+//             //TRAVERSE THROUGH THE GIVEN INPUT SMILES NOTATION AND INITIATING THE EDGE-WEIGHTS 
+//             for(int i=0;i<res.Count();i++)
+//             {   
+//                 //CHECK/LOGIC FOR RING STRUCTURES IN THE INPUT SMILES
+//                 if(char.IsDigit(res[i]))
+//                 {
+//                     for(int j=i+1;j<res.Count();j++)
+//                     {
+//                         if(res[i]==res[j])
+//                         {
+//                             if(char.IsLower(res[i-1])&&(char.IsLower(res[j-1]))) graph.addEdge(i-2,j-2,1);
+//                             else if(char.IsLower(res[i-1])) graph.addEdge(i-2,j-1,1);
+//                             else if(char.IsLower(res[j-1])) graph.addEdge(i-1,j-2,1);
+//                             else graph.addEdge(i-1,j-1,1);        
+//                         }
+//                     }
+//                 }
+//                 //CHECK/LOGIC FOR BRANCH STRUCTURES IN INPUT SMILES NOTATION
+//                 if((res[i]==')'))
+//                 {
+//                     count--;
+//                     if(i!=res.Length-1)
+//                     {
+//                         if(bonds.ContainsKey(res[i+1]))
+//                         {
+//                             int bond = graph.findindexvalues(i,0);
+//                             graph.addEdge(i+2,arr[count],bond);
+//                         }
+//                     }
+//                 }
+//                 if((res[i]=='(')&&(res[i-1]!=')'))
+//                 {
+//                     if(char.IsLower(res[i-1]))
+//                     {
+//                         arr[count] = i-2;
+//                     }
+//                     else 
+//                     {
+//                         arr[count] = i-1;
+//                     }
+//                     count++;
+//                 } 
+//                 if((res[i]=='(')&&(res[i-1]==')'))
+//                 {
+//                     int bond = graph.findindexvalues(i,0);
+//                     graph.addEdge(arr[count++],i+2,bond);
+//                 }
+//                 else if((res[i]=='(')&&(res[i-1]!=')'))
+//                 {
+//                     int bond = graph.findindexvalues(i,0);
+//                     if(char.IsLower(res[i-1]))
+//                     {
+//                         graph.addEdge(i-2,i+2,bond);
+//                     }
+//                     else
+//                     {
+//                         graph.addEdge(i-1,i+2,bond);
+//                     }
+//                 }
+//                 //CHECK/LOGIC FOR BONDS IN INPUT SMILES NOTATION
+//                 if((bonds.ContainsKey(res[i]))&&(res[i-1]!=('('))&&(res[i-1]!=(')')))
+//                 {
+//                     if(char.IsDigit(res[i-1]))
+//                     {
+//                         if(char.IsLower(res[i-2]))
+//                         {
+//                             graph.addEdge(i-3,i+1,bonds[res[i]]);
+//                         }
+//                         else
+//                         {
+//                             graph.addEdge(i-2,i+1,bonds[res[i]]);
+//                         }
+//                     }
+//                     else
+//                     {
+//                         if(char.IsLower(res[i-1]))
+//                         {
+//                             graph.addEdge(i-2,i+1,bonds[res[i]]);
+//                         }
+//                         else
+//                         {
+//                             graph.addEdge(i-1,i+1,bonds[res[i]]);
+//                         }
+//                     }
+//                 }
+//             }
+//             Console.WriteLine();
+//             //IMPLICIT HYDROGEN INITIALIZATION
+//             Console.WriteLine("\nIMPLICIT HYDROGEN COUNT\n");
+//             implicitHydrogenIndex();
+
+//             //ADJACENCY MATRIX GENERATION
+//             Console.WriteLine("\nADJACENCY MATRIX\n");
+//             adjacencyMatrix(res2.Count); //here res2.Count-->is the number of elements in the given input smiles notation.
+
+//             //PRINTING THE GRAPH
+//             Console.WriteLine();
+//             // VERTEX-->VERTEX : BOND-VALUE --> format of printing the graph
+//             foreach (var x in graph.adjacencyList)
+//             { 
+//                 Console.WriteLine(x.Key);
+//                 foreach (KeyValuePair<int, int> y in x.Value)
+//                 {
+//                     Console.WriteLine("vertex " + x.Key + " ---> " + y.Key + ": "+y.Value);
+//                 }
+//             }
+
+//         }
+//     }
+// }
+
+//newest raid
+ //CHECK/LOGIC FOR RING STRUCTURES IN THE INPUT SMILES
+                // if(char.IsDigit(res[i]))
+                // {
+                //     for(int j=i+1;j<res.Count();j++)
+                //     {
+                //         if(res[i]==res[j])
+                //         {
+                //             if(char.IsLower(res[i-1])&&(char.IsLower(res[j-1]))) graph.addEdge(i-2,j-2,1);
+                //             else if(char.IsLower(res[i-1])) graph.addEdge(i-2,j-1,1);
+                //             else if(char.IsLower(res[j-1])) graph.addEdge(i-1,j-2,1);
+                //             else graph.addEdge(i-1,j-1,1);        
+                //         }
+                //     }
+                // }
+
+
+                //logic in bonds
+                        // if(char.IsLower(res[i-2]))
+                        // {
+                        //     graph.addEdge(i-3,i+1,bonds[res[i]]);
+                        // }
+                        // else
+                        // {
+
+
+                    
+                    // if(bonds.ContainsKey(res[i-1])||bonds.ContainsKey(res[j-1]))
+                    // {
+                    //     if(bonds.ContainsKey(res[i-1])&&(bonds.ContainsKey(res[j-1]))&&(bonds.ContainsKey(res[i-1])==bonds.ContainsKey(res[j-1])))
+                    //     {
+                    //         bond_value=bonds[res[i-1]];
+                    //     }
+                    //     else if(bonds.ContainsKey(res[i-1]))
+                    //     {
+                    //         bond_value=bonds[res[i-1]];
+                    //     }
+                    //     else 
+                    //     {
+                    //         bond_value=bonds[res[j-1]];
+                    //     }
+                    //     //cl=1-c-cl=1
+                    //     //cl=1-c-c1
+                    //     //c1-c-cl=1
+                    //     //c=1-c-c=1
+                    //     if((char.IsLower(res[i-2]))&&(char.IsLower(res[j-2]))) graph.addEdge(i-3,j-3,bond_value);
+                    //     else if(char.IsLower(res[i-2])) graph.addEdge(i-3,j-1,bond_value);
+                    //     else if(char.IsLower(res[j-2])) graph.addEdge(i-1,j-3,bond_value);
+                    //     else graph.addEdge(i-2,j-2,bond_value); 
+                    // }
+                    // else
+                    // {
+                    //     if(char.IsLower(res[i-1])&&(char.IsLower(res[j-1]))) graph.addEdge(i-2,j-2,1);
+                    //     else if(char.IsLower(res[i-1])) graph.addEdge(i-2,j-1,1);
+                    //     else if(char.IsLower(res[j-1])) graph.addEdge(i-1,j-2,1);
+                    //     else graph.addEdge(i-1,j-1,1); 
+                    // }
+
+
+
+                    // if(bonds.ContainsKey(res[i-1]))
+                    // {   
+                    //     for(int j=i+1;j<res.Count();j++)
+                    //     {   
+                    //         if(res[i]==res[j])
+                    //         {   //cl=1-c-cl=1
+                    //             //cl=1-c-c1
+                    //             //c1-c-cl=1
+                    //             //c=1-c-c=1
+                    //             if((char.IsLower(res[i-2]))&&(char.IsLower(res[j-2]))) graph.addEdge(i-3,j-3,bonds[res[i-1]]);
+                    //             else if(char.IsLower(res[i-2])) graph.addEdge(i-3,j-1,bonds[res[i-1]]);
+                    //             else if(char.IsLower(res[j-2])) graph.addEdge(i-1,j-3,bonds[res[j-1]]);
+                    //             else graph.addEdge(i-2,j-2,bonds[res[i-1]]);        
+                    //         }
+                    //     }   
+                    // }
+                    // else
+                    // {
+                    //     for(int j=i+1;j<res.Count();j++)
+                    //     {
+                    //         if(res[i]==res[j])
+                    //         {
+                    //             if(char.IsLower(res[i-1])&&(char.IsLower(res[j-1]))) graph.addEdge(i-2,j-2,1);
+                    //             else if(char.IsLower(res[i-1])) graph.addEdge(i-2,j-1,1);
+                    //             else if(char.IsLower(res[j-1])) graph.addEdge(i-1,j-2,1);
+                    //             else graph.addEdge(i-1,j-1,1);        
+                    //         }
+                    //     }
+                    // }
+                        //     graph.addEdge(i-2,i+1,bonds[res[i]]);
+                        // }  
+
+
+                        
+                                //cl=1-c-cl=1 -- c1-c-c1
+                                //cl=1-c-c1
+                                //c1-c-cl=1 
+                                //c=1-c-cl=1
+                                //C = 1 - C - C l = 1
+                                //Cl=1-C-C=1
+                                // c=1-c-c=1
+                                // if((char.IsLower(res[i-2]))&&(char.IsLower(res[j-2]))) 
+                                // {
+                                //     graph.addEdge(i-3,j-3,bond_value);
+                                // }
+                                // else if(char.IsLower(res[i-2]))
+                                // {
+                                //     graph.addEdge(i-3,j-2,bond_value);
+                                // }
+                                // else if(char.IsLower(res[j-2])) 
+                                // {
+                                //     graph.addEdge(i-2,j-3,bond_value);
+                                // }
+                                // else 
+                                // {
+                                //     graph.addEdge(i-2,j-2,bond_value); 
+                                // }
+
+//newest raid on day one
+
+// using System;
+// using System.Collections;
+// using System.Collections.Generic;
+// using System.Linq;
+// using System.Text;
+// using System.Threading.Tasks;
+// namespace xyz
+// {
+//     class WeightedGraph
+//     {
+//         //INPUT SMILES
+//         static string sb = "C=1-C-Cl=1"; 
+//         //cl=1-c-cl=1
+//         //cl=1-c-c1
+//         //c1-c-cl=1
+//         //c=1-c-c=1
+
+//         //CONVERTING THE INPUT SMILES STRING INTO CHARACTER ARRAY-->RES
+//         //FOR EASY TRAVERSAL
+//         static char[] res = sb.ToCharArray();
+
+//         //ADJACENCY LIST CONTAINING FOR GRAPH NODES CONNECTIONS
+//         public Dictionary<int, Dictionary<int, int>> adjacencyList;
+
+//         //CREATING OBJECT <GRAPH> 
+//         static WeightedGraph graph = new WeightedGraph();
+
+//         //USED FOR STORING THE IMPLICIT HYDROGENS COUNT 
+//         // HydrogenCount --> < INDEX_VALUE , NUMBER OF IMPLICIT HYDROGENS >
+//         public Dictionary<int,int> HydrogenCount;
+        
+//        //readonly
+//        // Elements --> CONTAINS ALL THE < ELEMENT_NAME , VALENCE_ELECTRONS > PAIR
+//         public static readonly Dictionary<string,int> Elements = new Dictionary<string, int>()
+//         {
+//             {"H",1},{"He",2},{"Li",1},{"Be",2},{"B",3},{"C",4},{"N",5},
+// 	        {"O",6},{"F",7},{"Ne",8},{"Na",1},{"Mg",2},{"Al",3},{"Si",5},
+//             {"P",5},{"S",6},{"Cl",7},{"Ar",8},{"K",1},{"Ca",2},{"Sc",3},
+//             {"Ti",4},{"V",5},{"Cr",6},{"Mn",7},{"Fe",8},{"Co",9},{"Ni",10},
+//             {"Cu",11},{"Zn",12},{"Ga",3},{"Ge",3},{"As",5},{"Se",6},{"Br",7},
+//             {"Kr",8},{"Rb",1},{"Sr",2},{"Y",3},{"Zr",4},{"Nb",5},{"Mo",6},
+//             {"Tc",7},{"Ru",8},{"Rh",9},{"Pd",10},{"Ag",11},{"Cd",12},{"In",3},
+//             {"Sn",4},{"Sb",5},{"Te",6},{"I",10},{"Xe",8},{"Cs",1},{"Ba",2},
+//             {"La",3},{"Ce",4},{"Pr",5},{"Nd",6},{"Pm",7},{"Sm",8},{"Eu",9},
+//             {"Gd",10},{"Tb",11},{"Dy",12},{"Ho",13},{"Er",14},{"Tm",15},{"Yb",16},
+//             {"Lu",3},{"Hf",4},{"Ta",5},{"W",6},{"Re",7},{"Os",8},{"Ir",9},
+//             {"Pt",10},{"Au",11},{"Hg",12},{"Pb",4},{"Bi",5},{"Po",6},
+//             {"At",7},{"Rn",8},{"Fr",1},{"Ra",2},{"Ac",3},{"Th",4},{"Pa",5},
+//             {"U",6},{"Np",7},{"Pu",8},{"Am",9},{"Cm",10},{"Bk",11},{"Cf",12},
+//             {"Es",13},{"Fm",14},{"Md",15},{"No",16},{"Lr",3},{"Rf",4},{"Db",5},
+//             {"Sg",6},{"Bh",7},{"Hs",8},{"Mt",9},{"Ds",10},{"Rg",11},{"Cn",12},
+//             {"Nh",3},{"Fl",4},{"Mc",5},{"Lv",6},{"Ts",7},{"Og",8}
+//             //,{"Ti",3}
+//         };
+//         // bonds --> CONTAINS ALL THE <BOND,BOND_VALUE> PAIRS
+//         public static readonly Dictionary<char,int> bonds = new Dictionary<char, int>()
+//         {
+//             {'-',1},{'=',2},{'#',3},{'$', 4},{'.', 0},{':',1}
+//         };
+
+//         // public static readonly Dictionary<string,int> organicSubset = new Dictionary<String, int>()
+//         // {
+//         //     //B, C, N, O, P, S, F, Cl, Br, and I
+//         //     {"B",3},{"C",4},{"O",6},{"N",5},{"P",5},{"S'",6},{"S",4},{"S",2},{"F",1},{"Cl",1},{"Br",1},{"I",1}
+//         // };
+
+//         //CONSTRUCTOR 
+//         public WeightedGraph()
+//         {
+//             //INITIALIZING adjacencyList AND HydrogenCount AS EMPTY LISTS
+//             this.adjacencyList = new Dictionary<int , Dictionary<int, int>>(){};
+//             this.HydrogenCount = new Dictionary<int, int>(){};
+//         }
+//         //VERTEX CREATION-->Add new vertex
+//         public void addVertex(int vertex) 
+//         {
+//             if(!this.adjacencyList.ContainsKey(vertex))
+//             {
+//                 this.adjacencyList.Add(vertex, new Dictionary<int, int>());
+//             }
+//             else
+//             {
+//                 Console.WriteLine("this vertex is in use");
+//             }
+//         }
+//         //CREATION OF EDGES BETWEEN NODES--> New edge between 2 vertices
+//         public void addEdge(int v1, int v2, int weight) 
+//         {
+//             if (this.adjacencyList.ContainsKey(v1) && this.adjacencyList.ContainsKey(v2))
+//             {
+//                 this.adjacencyList[v1].Add(v2, weight);
+//                 this.adjacencyList[v2].Add(v1, weight);
+//             }
+//             else
+//             {
+//                 Console.WriteLine("Error: Vertex does not exist");
+//             }
+//         }
+//         //findindexvalues-->USED FOR FINDING THE BOND BEFORE/AFTER THE GIVEN INDEX
+//         public int findindexvalues(int idx,int logic)
+//         {
+//             int bond=0;
+//             if(logic==1) bond = bonds[res[idx-1]];
+//             if(logic==0) bond = bonds[res[idx+1]];
+//             return bond;
+//         }
+//         //implicitHydrogenIndex--> CALCULATES THE IMPLICIT HYDROGEN COUNT OF EACH ELEMENT AND ADDS IT TO THE HydrogenCount DICTIONARY
+//         static void implicitHydrogenIndex()
+//         {
+//             int valency=0;
+//             int bondsCount=0;
+//             int element= 0;
+//             string firstLetter = "";
+//             string secondLetter = "";
+//             bool isit =false;
+//             foreach (var x in graph.adjacencyList)
+//             {
+//                 valency=0;
+//                 bondsCount=0;
+//                 firstLetter = char.ToString(res[x.Key]);
+//                 secondLetter = "";
+//                 isit = false;
+//                 if(x.Key<res.Length-1) 
+//                 {
+//                     secondLetter = char.ToString(res[x.Key+1]);
+//                 }
+//                 string newelement = string.Join("",firstLetter,secondLetter);
+//                 if(Elements.ContainsKey(newelement))
+//                 {
+//                     isit=true;
+//                 }
+//                 if(isit==false)
+//                 {
+//                     element=Elements[char.ToString(res[x.Key])];
+//                 }
+//                 else
+//                 {
+//                     element=Elements[newelement];
+//                 }
+//                 foreach(KeyValuePair<int, int> y in x.Value)
+//                 {
+//                     bondsCount+=y.Value;
+//                 }
+//                 valency=element-bondsCount;
+//                 graph.HydrogenCount.Add(x.Key,valency);
+//             }
+//             foreach(KeyValuePair<int, int> ele in graph.HydrogenCount)
+//             {
+//                 Console.WriteLine(ele.Key +"-->"+ ele.Value);
+//             }
+//         }
+//         // adjacencyMatrix --> GENERATES THE ADJACENCY MATRIX 
+//         static void adjacencyMatrix(int size)
+//         {
+//             //DUMMY
+//             //size --> NO OF ELEMENTS IN THE GIVEN INPUT SMILES NOTATION
+//             //Matrix_size --> LENGTH OF THE GIVEN INPUT SMILES NOTATION 
+//             int sum=0,n=0,m=0;
+//             int Matrix_size = res.Length; 
+//             int[,] array = new int[Matrix_size,Matrix_size];
+//             int[] check = new int[Matrix_size];
+//             int[,] adjacencyMatrix = new int[size,size];
+
+//             //GENERATE THE BIG MATRIX
+//             foreach(var x in graph.adjacencyList)
+//             {
+//                 foreach(KeyValuePair<int, int> y in x.Value)
+//                 {
+//                     array[x.Key,y.Key] = 1;
+//                 }
+//             }
+//             //LOGIC TO REDUCE THE BIG MATRIX TO SMALLER ONE
+//             for(int i=0;i<Matrix_size;i++)
+//             {
+//                 sum=0;
+//                 for(int j=0;j<Matrix_size;j++)
+//                 {
+//                     sum+=array[i,j];
+//                 }
+//                 if(sum!=0) check[i]=1;
+//             }
+
+//             for(int i=0;i<Matrix_size;i++)
+//             {
+//                 if(check[i]!=0)
+//                 {
+//                     n=0;
+//                     for(int j=0;j<Matrix_size;j++)
+//                     {
+//                         if(check[j]!=0) 
+//                         {
+//                             adjacencyMatrix[m,n]=array[i,j];
+//                             n++;
+//                         }
+//                     }
+//                     m++;
+//                 }
+//             }
+//             //PRINTING THE ADJACENCY MATRIX
+//             for(int i=0;i<size;i++)
+//             {
+//                 for(int j=0;j<size;j++)
+//                 {
+//                     Console.Write(adjacencyMatrix[i,j]+" ");
+//                 }
+//                 Console.WriteLine();
+//             }
+//         }
+
+//         //MAIN METHOD
+//         static void Main(string[] args)
+//         {
+//             // CREATING A LIST WITHOUT ANY BONDS
+//             var res2 = new ArrayList();
+
+//             //TRAVERSING THROUGH THE INPUT SMILES NOTATION INITIATING VERTEXES
+//             for (int i = 0; i < res.Length; i++)
+//             {
+//                 if(bonds.ContainsKey(res[i]) || (res[i] == ('(')) || (res[i] == (')')) || Char.IsDigit(res[i]))
+//                 {
+//                     continue;
+//                 }
+//                 else 
+//                 {
+//                     if(char.IsLower(res[i]))
+//                     {
+//                         if(graph.adjacencyList.ContainsKey(i-1)) continue;
+//                         else
+//                         {
+//                             //cl=1-c-c1
+//                             res2.Add(res[i-1]);
+//                             Console.Write(i-1+" ");
+//                             graph.addVertex(i-1);
+//                         }
+//                     }
+//                     else
+//                     {
+//                         res2.Add(res[i]);
+//                         Console.Write(i+" ");
+//                         graph.addVertex(i);
+//                     }
+//                 }
+//             }    
+
+//             Console.WriteLine();     
+
+//             //PRINT THE LIST RES-->CONTAINS INPUT SMILES IN CHARACTER ARRAY FORM
+//             Console.WriteLine("INPUT SMILES :");
+//             for(int i=0;i<res.Length;i++)
+//             {
+//                 Console.Write(res[i]+" ");
+//             }
+
+//             Console.WriteLine();
+
+//             //PRINT THE LIST RES2-->CONTAINS THE ELEMENTS IN THE INPUT SMILES
+//             Console.WriteLine("ELEMENTS :");
+//             for(int i=0;i<res2.Count;i++)
+//             {
+//                 Console.Write(res2[i]+"  ");
+//             }
+
+//             //DUMMY-->used for branch calcs
+//             int[] arr = new int[100];
+//             int count = 0;     
+
+//             //TRAVERSE THROUGH THE GIVEN INPUT SMILES NOTATION AND INITIATING THE EDGE-WEIGHTS 
+//             for(int i=0;i<res.Count();i++)
+//             {   
+//                 //CHECK/LOGIC FOR RING STRUCTURES IN THE INPUT SMILES
+//                 // if(char.IsDigit(res[i]))
+//                 // {
+//                 //     for(int j=i+1;j<res.Count();j++)
+//                 //     {
+//                 //         if(res[i]==res[j])
+//                 //         {
+//                 //             if(char.IsLower(res[i-1])&&(char.IsLower(res[j-1]))) graph.addEdge(i-2,j-2,1);
+//                 //             else if(char.IsLower(res[i-1])) graph.addEdge(i-2,j-1,1);
+//                 //             else if(char.IsLower(res[j-1])) graph.addEdge(i-1,j-2,1);
+//                 //             else graph.addEdge(i-1,j-1,1);        
+//                 //         }
+//                 //     }
+//                 // }
+//                 if(char.IsDigit(res[i]))
+//                 {   //   c=1
+
+//                     int bond_value=0;
+//                     for(int j=i+1;j<res.Count();j++)
+//                     {
+//                         if(res[i]==res[j])
+//                         {
+//                             if(bonds.ContainsKey(res[i-1])||bonds.ContainsKey(res[j-1]))
+//                             {
+//                                 if(bonds.ContainsKey(res[i-1])&&(bonds.ContainsKey(res[j-1]))&&(bonds.ContainsKey(res[i-1])==bonds.ContainsKey(res[j-1])))
+//                                 {
+//                                     bond_value=bonds[res[i-1]];
+//                                 }
+//                                 else if(bonds.ContainsKey(res[i-1]))
+//                                 {
+//                                     bond_value=bonds[res[i-1]];
+//                                 }
+//                                 else 
+//                                 {
+//                                     bond_value=bonds[res[j-1]];
+//                                 }
+//                                 //cl=1-c-cl=1 -- c1-c-c1
+//                                 //cl=1-c-c1
+//                                 //c1-c-cl=1 
+//                                 //c=1-c-cl=1
+//                                 //C = 1 - C - C l = 1
+
+//                                 if((char.IsLower(res[i-2]))&&(char.IsLower(res[j-2]))) graph.addEdge(i-3,j-3,bond_value);
+//                                 else if(char.IsLower(res[i-2])) graph.addEdge(i-3,j-1,bond_value);
+//                                 else if(char.IsLower(res[j-2])) graph.addEdge(i-1,j-3,bond_value);
+//                                 else graph.addEdge(i-2,j-2,bond_value); 
+//                             }
+//                             else
+//                             {
+//                                 if(char.IsLower(res[i-1])&&(char.IsLower(res[j-1]))) graph.addEdge(i-2,j-2,1);
+//                                 else if(char.IsLower(res[i-1])) graph.addEdge(i-2,j-1,1);
+//                                 else if(char.IsLower(res[j-1])) graph.addEdge(i-1,j-2,1);
+//                                 else graph.addEdge(i-1,j-1,1); 
+//                             }
+//                         }
+//                     }
+
+//                     // if(bonds.ContainsKey(res[i-1])||bonds.ContainsKey(res[j-1]))
+//                     // {
+//                     //     if(bonds.ContainsKey(res[i-1])&&(bonds.ContainsKey(res[j-1]))&&(bonds.ContainsKey(res[i-1])==bonds.ContainsKey(res[j-1])))
+//                     //     {
+//                     //         bond_value=bonds[res[i-1]];
+//                     //     }
+//                     //     else if(bonds.ContainsKey(res[i-1]))
+//                     //     {
+//                     //         bond_value=bonds[res[i-1]];
+//                     //     }
+//                     //     else 
+//                     //     {
+//                     //         bond_value=bonds[res[j-1]];
+//                     //     }
+//                     //     //cl=1-c-cl=1
+//                     //     //cl=1-c-c1
+//                     //     //c1-c-cl=1
+//                     //     //c=1-c-c=1
+//                     //     if((char.IsLower(res[i-2]))&&(char.IsLower(res[j-2]))) graph.addEdge(i-3,j-3,bond_value);
+//                     //     else if(char.IsLower(res[i-2])) graph.addEdge(i-3,j-1,bond_value);
+//                     //     else if(char.IsLower(res[j-2])) graph.addEdge(i-1,j-3,bond_value);
+//                     //     else graph.addEdge(i-2,j-2,bond_value); 
+//                     // }
+//                     // else
+//                     // {
+//                     //     if(char.IsLower(res[i-1])&&(char.IsLower(res[j-1]))) graph.addEdge(i-2,j-2,1);
+//                     //     else if(char.IsLower(res[i-1])) graph.addEdge(i-2,j-1,1);
+//                     //     else if(char.IsLower(res[j-1])) graph.addEdge(i-1,j-2,1);
+//                     //     else graph.addEdge(i-1,j-1,1); 
+//                     // }
+
+
+
+//                     // if(bonds.ContainsKey(res[i-1]))
+//                     // {   
+//                     //     for(int j=i+1;j<res.Count();j++)
+//                     //     {   
+//                     //         if(res[i]==res[j])
+//                     //         {   //cl=1-c-cl=1
+//                     //             //cl=1-c-c1
+//                     //             //c1-c-cl=1
+//                     //             //c=1-c-c=1
+//                     //             if((char.IsLower(res[i-2]))&&(char.IsLower(res[j-2]))) graph.addEdge(i-3,j-3,bonds[res[i-1]]);
+//                     //             else if(char.IsLower(res[i-2])) graph.addEdge(i-3,j-1,bonds[res[i-1]]);
+//                     //             else if(char.IsLower(res[j-2])) graph.addEdge(i-1,j-3,bonds[res[j-1]]);
+//                     //             else graph.addEdge(i-2,j-2,bonds[res[i-1]]);        
+//                     //         }
+//                     //     }   
+//                     // }
+//                     // else
+//                     // {
+//                     //     for(int j=i+1;j<res.Count();j++)
+//                     //     {
+//                     //         if(res[i]==res[j])
+//                     //         {
+//                     //             if(char.IsLower(res[i-1])&&(char.IsLower(res[j-1]))) graph.addEdge(i-2,j-2,1);
+//                     //             else if(char.IsLower(res[i-1])) graph.addEdge(i-2,j-1,1);
+//                     //             else if(char.IsLower(res[j-1])) graph.addEdge(i-1,j-2,1);
+//                     //             else graph.addEdge(i-1,j-1,1);        
+//                     //         }
+//                     //     }
+//                     // }
+//                 }
+//                 //CHECK/LOGIC FOR BRANCH STRUCTURES IN INPUT SMILES NOTATION
+//                 if((res[i]==')'))
+//                 {
+//                     count--;
+//                     if(i!=res.Length-1)
+//                     {
+//                         if(bonds.ContainsKey(res[i+1]))
+//                         {
+//                             int bond = graph.findindexvalues(i,0);
+//                             graph.addEdge(i+2,arr[count],bond);
+//                         }
+//                     }
+//                 }
+//                 if((res[i]=='(')&&(res[i-1]!=')'))
+//                 {
+//                     if(char.IsLower(res[i-1]))
+//                     {
+//                         arr[count] = i-2;
+//                     }
+//                     else 
+//                     {
+//                         arr[count] = i-1;
+//                     }
+//                     count++;
+//                 } 
+//                 if((res[i]=='(')&&(res[i-1]==')'))
+//                 {
+//                     int bond = graph.findindexvalues(i,0);
+//                     graph.addEdge(arr[count++],i+2,bond);
+//                 }
+//                 else if((res[i]=='(')&&(res[i-1]!=')'))
+//                 {
+//                     int bond = graph.findindexvalues(i,0);
+//                     if(char.IsLower(res[i-1]))
+//                     {
+//                         graph.addEdge(i-2,i+2,bond);
+//                     }
+//                     else
+//                     {
+//                         graph.addEdge(i-1,i+2,bond);
+//                     }
+//                 }
+//                 //CHECK/LOGIC FOR BONDS IN INPUT SMILES NOTATION        &&(!bonds.ContainsKey(res[i+1])
+//                 if((bonds.ContainsKey(res[i]))&&(res[i-1]!=('('))&&(res[i-1]!=(')'))&&(!char.IsDigit(res[i+1])))
+//                 {
+//                     if(char.IsDigit(res[i-1]))
+//                     { //c1   c=1
+//                         // if(char.IsLower(res[i-2]))
+//                         // {
+//                         //     graph.addEdge(i-3,i+1,bonds[res[i]]);
+//                         // }
+//                         // else
+//                         // {
+//                         //     graph.addEdge(i-2,i+1,bonds[res[i]]);
+//                         // }  
+//                         //   c=1-c
+//                         if(bonds.ContainsKey(res[i-2]))
+//                         {   // cl=1-c
+//                             if(char.IsLower(res[i-3]))
+//                             {
+//                                 graph.addEdge(i-4,i+1,bonds[res[i]]);
+//                             } 
+//                             // c=1-c
+//                             else
+//                             {
+//                                 graph.addEdge(i-3,i+1,bonds[res[i]]);
+//                             }
+//                         }
+//                         else
+//                         {// Cl1-c
+//                             if(char.IsLower(res[i-2]))
+//                             {
+//                                 graph.addEdge(i-3,i+1,bonds[res[i]]);
+//                             }
+//                             //C1-c
+//                             else
+//                             {
+//                                 graph.addEdge(i-2,i+1,bonds[res[i]]);
+//                             }
+//                         }
+//                     }//Cl-c-c
+//                     else
+//                     {
+//                         if(char.IsLower(res[i-1]))
+//                         {
+//                             graph.addEdge(i-2,i+1,bonds[res[i]]);
+//                         }
+//                         else
+//                         {
+//                             graph.addEdge(i-1,i+1,bonds[res[i]]);
+//                         }
+//                     }
+//                 }
+//             }
+//             Console.WriteLine();
+//             //IMPLICIT HYDROGEN INITIALIZATION
+//             Console.WriteLine("\nIMPLICIT HYDROGEN COUNT\n");
+//             implicitHydrogenIndex();
+
+//             //ADJACENCY MATRIX GENERATION
+//             Console.WriteLine("\nADJACENCY MATRIX\n");
+//             adjacencyMatrix(res2.Count); //here res2.Count-->is the number of elements in the given input smiles notation.
+
+//             Console.WriteLine();
+//             //PRINTING THE GRAPH
+//             // VERTEX-->VERTEX : BOND-VALUE --> format of printing the graph
+//             foreach (var x in graph.adjacencyList)
+//             { 
+//                 Console.WriteLine(x.Key);
+//                 foreach (KeyValuePair<int, int> y in x.Value)
+//                 {
+//                     Console.WriteLine("vertex " + x.Key + " ---> " + y.Key + ": "+y.Value);
+//                 }
+//             }
+
+//         }
+//     }
+// }
+
+
+
+
+
+
+
+// for (int i = 0; i < res.Length; i++)
+            // {
+            //     if(bonds.ContainsKey(res[i]) || (res[i] == ('(')) || (res[i] == (')')) || Char.IsDigit(res[i]))
+            //     {
+            //         continue;
+            //     }
+            //     else 
+            //     {
+            //         if(char.IsLower(res[i]))
+            //         {
+            //             if(graph.adjacencyList.ContainsKey(i-1)) continue;
+            //             else
+            //             {
+            //                 res2.Add(res[i-1]);
+            //                 Console.Write(i-1+" ");
+            //                 graph.addVertex(i-1);
+            //             }
+            //         }
+            //         else
+            //         {
+            //             res2.Add(res[i]);
+            //             Console.Write(i+" ");
+            //             graph.addVertex(i);
+            //         }
+            //     }
+            // }    
+
+        // public static readonly Dictionary<string,int> organicSubset = new Dictionary<String, int>()
+        // {
+        //     //B, C, N, O, P, S, F, Cl, Br, and I
+        //     {"B",3},{"C",4},{"O",6},{"N",5},{"P",5},{"S'",6},{"S",4},{"S",2},{"F",1},{"Cl",1},{"Br",1},{"I",1}
+        // };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+==============================================================================================================================================================
+
+
+
+
+
+
+
+
+
+//new update removed single bonds 
+//pasting the old code here for refernece
+
+ // static void branches()
+        // {
+        //     //DUMMY-->used for branch calculations.
+        //     int[] arr = new int[100];
+        //     int count = 0;     
+
+        //     for(int i=0;i<res.Length;i++)
+        //     {
+        //         //CHECK/LOGIC FOR BRANCH STRUCTURES IN INPUT SMILES NOTATION
+        //         if((res[i]==')'))
+        //         {
+        //             count--;
+        //             if(i!=res.Length-1)
+        //             {
+        //                 if(bonds.ContainsKey(res[i+1]))
+        //                 {
+        //                     int bond = graph.findindexvalues(i,0);
+        //                     graph.addEdge(i+2,arr[count],bond);
+        //                 }
+        //             }
+        //         }
+        //         if((res[i]=='(')&&(res[i-1]!=')'))
+        //         {
+        //             if(char.IsLower(res[i-1]))
+        //             {
+        //                 arr[count] = i-2;
+        //             }
+        //             else 
+        //             {
+        //                 arr[count] = i-1;
+        //             }
+        //             count++;
+        //         } 
+        //         if((res[i]=='(')&&(res[i-1]==')'))
+        //         {
+        //             int bond = graph.findindexvalues(i,0);
+        //             graph.addEdge(arr[count++],i+2,bond);
+        //         }
+        //         else if((res[i]=='(')&&(res[i-1]!=')'))
+        //         {
+        //             int bond = graph.findindexvalues(i,0);
+        //             if(char.IsLower(res[i-1]))
+        //             {
+        //                 graph.addEdge(i-2,i+2,bond);
+        //             }
+        //             else
+        //             {
+        //                 graph.addEdge(i-1,i+2,bond);
+        //             }
+        //         }
+        //     }
+        // }
+
+        // static void Ring()
+        // {
+        //     for(int i=0;i<res.Length;i++)
+        //     {
+        //         //CHECK/LOGIC FOR RING STRUCTURES
+        //         if(char.IsDigit(res[i]))
+        //         {   
+        //             int bond_value=0;
+        //             for(int j=i+1;j<res.Count();j++)
+        //             {
+        //                 if(res[i]==res[j])
+        //                 {
+        //                     if(bonds.ContainsKey(res[i-1])||bonds.ContainsKey(res[j-1]))
+        //                     {
+        //                         if(bonds.ContainsKey(res[i-1])&&(bonds.ContainsKey(res[j-1]))&&(bonds.ContainsKey(res[i-1])==bonds.ContainsKey(res[j-1])))
+        //                         {
+        //                             bond_value=bonds[res[i-1]];
+        //                             if((char.IsLower(res[i-2]))&&(char.IsLower(res[j-2]))) 
+        //                             {
+        //                                 graph.addEdge(i-3,j-3,bond_value);
+        //                             }
+        //                             else if(char.IsLower(res[i-2]))
+        //                             {
+        //                                 graph.addEdge(i-3,j-2,bond_value);
+        //                             }
+        //                             else if(char.IsLower(res[j-2])) 
+        //                             {
+        //                                 graph.addEdge(i-2,j-3,bond_value);
+        //                             }
+        //                             else 
+        //                             {
+        //                                 graph.addEdge(i-2,j-2,bond_value); 
+        //                             }
+        //                         }
+        //                         else if(bonds.ContainsKey(res[i-1]))
+        //                         {
+        //                             bond_value=bonds[res[i-1]];
+        //                             if(char.IsLower(res[i-2])) 
+        //                             {
+        //                                 graph.addEdge(i-3,j-1,bonds[res[i-1]]);
+        //                             }
+        //                             else 
+        //                             {
+        //                                 graph.addEdge(i-2,j-1,bond_value);
+        //                             }
+        //                         }
+        //                         else 
+        //                         {
+        //                             bond_value=bonds[res[j-1]];
+        //                             if(char.IsLower(res[j-2])) 
+        //                             {
+        //                                 graph.addEdge(i-1,j-3,bond_value);
+        //                             }
+        //                             else 
+        //                             {
+        //                                 graph.addEdge(i-1,j-2,bond_value);
+        //                             }
+        //                         }
+        //                     }
+        //                     else
+        //                     {
+        //                         if(char.IsLower(res[i-1])&&(char.IsLower(res[j-1]))) 
+        //                         {
+        //                             graph.addEdge(i-2,j-2,1);
+        //                         }
+        //                         else if(char.IsLower(res[i-1])) 
+        //                         {
+        //                             graph.addEdge(i-2,j-1,1);
+        //                         }
+        //                         else if(char.IsLower(res[j-1])) 
+        //                         {
+        //                             graph.addEdge(i-1,j-2,1);
+        //                         }
+        //                         else 
+        //                         {
+        //                             graph.addEdge(i-1,j-1,1); 
+        //                         }
+        //                     }
+        //                 }
+        //             }
+
+        //         }
+        //     }
+        // }
+
+        // static void linearBonds()
+        // {
+        //     for(int i=0;i<res.Length;i++)
+        //     {
+        //         //CHECK/LOGIC FOR BONDS IN INPUT SMILES NOTATION       
+        //         if((bonds.ContainsKey(res[i]))&&(res[i-1]!=('('))&&(res[i-1]!=(')'))&&(!char.IsDigit(res[i+1])))
+        //         {
+        //             if(char.IsDigit(res[i-1]))
+        //             { 
+        //                 if(bonds.ContainsKey(res[i-2]))
+        //                 {  
+        //                     if(char.IsLower(res[i-3]))
+        //                     {
+        //                         graph.addEdge(i-4,i+1,bonds[res[i]]);
+        //                     } 
+        //                     else
+        //                     {
+        //                         graph.addEdge(i-3,i+1,bonds[res[i]]);
+        //                     }
+        //                 }
+        //                 else
+        //                 {
+        //                     if(char.IsLower(res[i-2]))
+        //                     {
+        //                         graph.addEdge(i-3,i+1,bonds[res[i]]);
+        //                     }
+        //                     else
+        //                     {
+        //                         graph.addEdge(i-2,i+1,bonds[res[i]]);
+        //                     }
+        //                 }
+        //             }
+        //             else
+        //             {
+        //                 if(char.IsLower(res[i-1]))
+        //                 {
+        //                     graph.addEdge(i-2,i+1,bonds[res[i]]);
+        //                 }
+        //                 else
+        //                 {
+        //                     graph.addEdge(i-1,i+1,bonds[res[i]]);
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+
+
+
+=========================================================================================================================================================
+
+// static void branches()
+        // {
+            // //DUMMY-->used for branch calculations.
+            // int[] arr = new int[100];
+            // int count = 0;     
+
+            // for(int i=0;i<res.Length;i++)
+            // {
+            //     //CHECK/LOGIC FOR BRANCH STRUCTURES IN INPUT SMILES NOTATION
+            //     if((res[i]==')'))
+            //     {
+            //         count--;
+            //         if(i!=res.Length-1)
+            //         {
+            //             if(bonds.ContainsKey(res[i+1]))
+            //             {
+            //                 int bond = graph.findindexvalues(i,0);
+            //                 graph.addEdge(i+2,arr[count],bond);
+            //             }
+            //             else if(Elements.ContainsKey(char.ToString(res[i+1])))
+            //             {
+            //                 graph.addEdge(i+1,arr[count],1);
+            //             }
+            //         }
+            //     }
+            //     if((res[i]=='(')&&(res[i-1]!=')'))
+            //     {
+            //         if(char.IsLower(res[i-1]))
+            //         {
+            //             arr[count] = i-2;
+            //         }
+            //         else 
+            //         {
+            //             arr[count] = i-1;
+            //         }
+            //         count++;
+            //     }
+            //     if((res[i]=='(')&&(res[i-1]==')'))
+            //     {
+            //         if(bonds.ContainsKey(res[i+1]))
+            //         {
+            //             int bond = graph.findindexvalues(i,0);
+            //             graph.addEdge(arr[count++],i+2,bond);
+            //         }
+            //         else
+            //         {
+            //             if(Elements.ContainsKey(char.ToString(res[i+1])))
+            //             {
+            //                 graph.addEdge(arr[count++],i+1,1);
+            //             }
+            //         }
+            //     }
+            //     else if((res[i]=='(')&&(res[i-1]!=')'))
+            //     {
+            //         if(bonds.ContainsKey(res[i+1]))
+            //         {
+            //             int bond = graph.findindexvalues(i,0);
+            //             if(char.IsLower(res[i-1]))
+            //             {
+            //                 graph.addEdge(i-2,i+2,bond);
+            //             }
+            //             else
+            //             {
+            //                 graph.addEdge(i-1,i+2,bond);
+            //             }
+            //         }
+            //         else
+            //         {
+            //             if(char.IsLower(res[i-1]))
+            //             {
+            //                 graph.addEdge(i-2,i+1,1);
+            //             }
+            //             else 
+            //             {
+            //                 graph.addEdge(i-1,i+1,1);
+            //             }
+            //         }
+            //     }
+            // }
+        // }
+        
+        // static void Ring()
+        // {
+        //     for(int i=0;i<res.Length;i++)
+        //     {
+        //         // //CHECK/LOGIC FOR RING STRUCTURES
+                // if(char.IsDigit(res[i]))
+                // {   
+                //     int bond_value=0;
+                //     for(int j=i+1;j<res.Count();j++)
+                //     {
+                //         if(res[i]==res[j])
+                //         {
+                //             if(bonds.ContainsKey(res[i-1])||bonds.ContainsKey(res[j-1]))
+                //             {
+                //                 if(bonds.ContainsKey(res[i-1])&&(bonds.ContainsKey(res[j-1]))&&(bonds.ContainsKey(res[i-1])==bonds.ContainsKey(res[j-1])))
+                //                 {
+                //                     bond_value=bonds[res[i-1]];
+                //                     if((char.IsLower(res[i-2]))&&(char.IsLower(res[j-2]))) 
+                //                     {
+                //                         graph.addEdge(i-3,j-3,bond_value);
+                //                     }
+                //                     else if(char.IsLower(res[i-2]))
+                //                     {
+                //                         graph.addEdge(i-3,j-2,bond_value);
+                //                     }
+                //                     else if(char.IsLower(res[j-2])) 
+                //                     {
+                //                         graph.addEdge(i-2,j-3,bond_value);
+                //                     }
+                //                     else 
+                //                     {
+                //                         graph.addEdge(i-2,j-2,bond_value); 
+                //                     }
+                //                 }
+                //                 else if(bonds.ContainsKey(res[i-1]))
+                //                 {
+                //                     bond_value=bonds[res[i-1]];
+                //                     if(char.IsLower(res[i-2])) 
+                //                     {
+                //                         graph.addEdge(i-3,j-1,bonds[res[i-1]]);
+                //                     }
+                //                     else 
+                //                     {
+                //                         graph.addEdge(i-2,j-1,bond_value);
+                //                     }
+                //                 }
+                //                 else 
+                //                 {
+                //                     bond_value=bonds[res[j-1]];
+                //                     if(char.IsLower(res[j-2])) 
+                //                     {
+                //                         graph.addEdge(i-1,j-3,bond_value);
+                //                     }
+                //                     else 
+                //                     {
+                //                         graph.addEdge(i-1,j-2,bond_value);
+                //                     }
+                //                 }
+                //             }
+                //             else
+                //             {
+                //                 if(char.IsLower(res[i-1])&&(char.IsLower(res[j-1]))) 
+                //                 {
+                //                     graph.addEdge(i-2,j-2,1);
+                //                 }
+                //                 else if(char.IsLower(res[i-1])) 
+                //                 {
+                //                     graph.addEdge(i-2,j-1,1);
+                //                 }
+                //                 else if(char.IsLower(res[j-1])) 
+                //                 {
+                //                     graph.addEdge(i-1,j-2,1);
+                //                 }
+                //                 else 
+                //                 {
+                //                     graph.addEdge(i-1,j-1,1); 
+                //                 }
+                //             }
+                //         }
+                //     }
+
+        //         // }
+        //     }
+        // }
+       
+        // static void linearBonds(){
+        //     for(int i=0;i<res.Length;i++)
+        //     {
+        //         // if(i!=res.Length-1)
+                // {
+                //     //cccl=1ccc1
+                //     //1110001110
+                //     if(char.IsDigit(res[i]))
+                //     {
+                //         if(res[i+1]!=')')
+                //         {if(bonds.ContainsKey(res[i+1]))
+                //         {
+                //             graph.addEdge(nearestIndex(i,1),nearestIndex(i,0),bonds[res[i+1]]);
+                //         }
+                //         else
+                //         {
+                //             graph.addEdge(nearestIndex(i,1),nearestIndex(i,0),1);
+                //         }}
+                //     }
+                //     if(Elements.ContainsKey(char.ToString(res[i])))
+                //     {
+                //         if(Elements.ContainsKey(char.ToString(res[i+1])))
+                //         {
+                //             graph.addEdge(i,i+1,1);
+                //         }
+                //         else if(char.IsLower(res[i+1]) && ((i+1)!=res.Length-1))
+                //         {
+                //             if(bonds.ContainsKey(res[i+2]))
+                //             {
+                //                 graph.addEdge(i,i+3,bonds[res[i+2]]);
+                //             }
+                //             else if(Elements.ContainsKey(char.ToString(res[i+2])))
+                //             {
+                //                 graph.addEdge(i,i+2,1);
+                //             }
+                //         }
+                //         if(bonds.ContainsKey(res[i+1]))
+                //         {
+                //             if(Elements.ContainsKey(char.ToString(res[i+3])))
+                //             {
+                //                 graph.addEdge(i,i+2,bonds[res[i+1]]);
+                //             }
+                //         }
+                //     }
+
+                // }
+        //     }
+        // }
+
+=======================================================================================================================================
+
+new save today -- sarahackathon 1st submission before day
+// using System;
+// using System.Collections;
+// using System.Collections.Generic;
+// using System.Linq;
+// using System.Text;
+// using System.Threading.Tasks;
+
+// namespace xyz
+// {
+//     class inputClass
+//     {
+//         static void Main(string[] args)
+//         {
+//             // WeightedGraph inputobj = new WeightedGraph();
+//             WeightedGraph inputobj = new WeightedGraph();
+//             //Console.WriteLine("enter the option : \n1)input smiles notation\n2)print adjacency matrix\n3)print implicit hydrogens\n4)print zagreb index\n");
+//             Console.WriteLine("START ? (1/0)");
+//             int option = Convert.ToInt32(Console.ReadLine());
+//             string inputSmiles = "";
+//             do{
+//             Console.WriteLine("enter the option : \n1)input smiles notation\n2)print adjacency matrix\n3)print implicit hydrogens\n4)print zagreb index\n");
+//             option = Convert.ToInt32(Console.ReadLine());
+//             switch (option)
+//             {
+//                 case 1:
+//                     Console.WriteLine("ENTER THE INPUT SMILES NOTATION : ");
+//                     inputSmiles = Console.ReadLine();
+//                     if(!string.IsNullOrEmpty(inputSmiles))
+//                     {   
+//                         inputobj = new WeightedGraph(inputSmiles);
+//                         inputobj.initiateVertex(inputSmiles);
+//                         inputobj.readSmiles(inputSmiles);
+//                     }
+//                     else
+//                     {
+//                         Console.WriteLine("ENTER A PROPER INPUT");
+//                     }
+//                     break;
+//                 case 2:
+//                     Console.WriteLine("ADJACENCY MATRIX : ");
+//                     inputobj.adjacencyMatrix(inputSmiles);
+//                     break;
+//                 case 3:
+//                     Console.WriteLine("IMPLICIT HYDROGEN COUNT : ");
+//                     inputobj.implicitHydrogenIndex(inputSmiles);
+//                     break;
+//                 case 4:
+//                     Console.WriteLine("ZAGREB INDEX : ");
+//                     inputobj.zagrebIndex(inputobj.adjacencyMatrix(inputSmiles));
+//                     break;
+//                 default:
+//                     Console.WriteLine("INVALID OPTION");
+//                     break;
+//             }
+//             Console.WriteLine("DO YOU WANT TO CONTINUE (1/0) :");
+//             option = Convert.ToInt32(Console.ReadLine());
+//             }while(option!=0);
+//         }
+//     }
+//     class WeightedGraph
+//     {
+//         //INPUT SMILES   
+//         static string sb = "CCCC";
+//         static int[] ElementIndexs = new int[sb.Length]; 
+//         static int elementCount=0;
+
+//         //ADJACENCY LIST CONTAINING FOR GRAPH NODES CONNECTIONS
+//         public Dictionary<int, Dictionary<int, int>> adjacencyList;
+
+//         //CREATING OBJECT <GRAPH> 
+//         static WeightedGraph graph = new WeightedGraph();
+
+//         //USED FOR STORING THE IMPLICIT HYDROGENS COUNT 
+//         // HydrogenCount --> < INDEX_VALUE , NUMBER OF IMPLICIT HYDROGENS >
+//         public Dictionary<int,int> HydrogenCount;
+        
+//        //readonly
+//        // Elements --> CONTAINS ALL THE < ELEMENT_NAME , VALENCE_ELECTRONS > PAIR
+//         public static readonly Dictionary<string,int> Elements = new Dictionary<string, int>()
+//         {
+//             {"H",1},{"He",2},{"Li",1},{"Be",2},{"B",3},{"C",4},{"N",5},
+// 	        {"O",6},{"F",7},{"Ne",8},{"Na",1},{"Mg",2},{"Al",3},{"Si",5},
+//             {"P",5},{"S",6},{"Cl",7},{"Ar",8},{"K",1},{"Ca",2},{"Sc",3},
+//             {"Ti",4},{"V",5},{"Cr",6},{"Mn",7},{"Fe",8},{"Co",9},{"Ni",10},
+//             {"Cu",11},{"Zn",12},{"Ga",3},{"Ge",3},{"As",5},{"Se",6},{"Br",7},
+//             {"Kr",8},{"Rb",1},{"Sr",2},{"Y",3},{"Zr",4},{"Nb",5},{"Mo",6},
+//             {"Tc",7},{"Ru",8},{"Rh",9},{"Pd",10},{"Ag",11},{"Cd",12},{"In",3},
+//             {"Sn",4},{"Sb",5},{"Te",6},{"I",10},{"Xe",8},{"Cs",1},{"Ba",2},
+//             {"La",3},{"Ce",4},{"Pr",5},{"Nd",6},{"Pm",7},{"Sm",8},{"Eu",9},
+//             {"Gd",10},{"Tb",11},{"Dy",12},{"Ho",13},{"Er",14},{"Tm",15},{"Yb",16},
+//             {"Lu",3},{"Hf",4},{"Ta",5},{"W",6},{"Re",7},{"Os",8},{"Ir",9},
+//             {"Pt",10},{"Au",11},{"Hg",12},{"Pb",4},{"Bi",5},{"Po",6},
+//             {"At",7},{"Rn",8},{"Fr",1},{"Ra",2},{"Ac",3},{"Th",4},{"Pa",5},
+//             {"U",6},{"Np",7},{"Pu",8},{"Am",9},{"Cm",10},{"Bk",11},{"Cf",12},
+//             {"Es",13},{"Fm",14},{"Md",15},{"No",16},{"Lr",3},{"Rf",4},{"Db",5},
+//             {"Sg",6},{"Bh",7},{"Hs",8},{"Mt",9},{"Ds",10},{"Rg",11},{"Cn",12},
+//             {"Nh",3},{"Fl",4},{"Mc",5},{"Lv",6},{"Ts",7},{"Og",8}
+//         };
+
+//         // bonds --> CONTAINS ALL THE < BOND , BOND_VALUE > PAIRS
+//         public static readonly Dictionary<char,int> bonds = new Dictionary<char, int>()
+//         {
+//             {'-',1},{'=',2},{'#',3},{'$', 4},{'.', 0},{':',1}
+//         };
+
+//         //CONSTRUCTOR 
+//         public WeightedGraph()
+//         {
+//             //INITIALIZING adjacencyList AND HydrogenCount AS EMPTY LISTS
+//             this.adjacencyList = new Dictionary<int , Dictionary<int, int>>(){};
+//             this.HydrogenCount = new Dictionary<int, int>(){};
+//         }
+//         public WeightedGraph(string input)
+//         {
+//             sb=input;
+//         }
+
+//         //VERTEX CREATION-->Add new vertex
+//         public void addVertex(int vertex) 
+//         {
+//             if(!this.adjacencyList.ContainsKey(vertex))
+//             {
+//                 this.adjacencyList.Add(vertex, new Dictionary<int, int>());
+//             }
+//             else
+//             {
+//                 Console.WriteLine("this vertex is in use");
+//             }
+//         }
+
+//         //CREATION OF EDGES BETWEEN NODES--> New edge between 2 vertices
+//         public void addEdge(int v1, int v2, int weight) 
+//         {
+//             if (this.adjacencyList.ContainsKey(v1) && this.adjacencyList.ContainsKey(v2))
+//             {
+//                 this.adjacencyList[v1].Add(v2, weight);
+//                 this.adjacencyList[v2].Add(v1, weight);
+//             }
+//             else
+//             {
+//                 Console.WriteLine(v1);
+//                 Console.WriteLine(v2);
+//                 Console.WriteLine("Error: Vertex does not exist");
+//             }
+//         }
+
+//         //findindexvalues-->USED FOR FINDING THE BOND BEFORE/AFTER THE GIVEN INDEX
+//         public int findindexvalues(int idx,int logic,char[] res)
+//         {
+//             int bond=0;
+//             if(logic==1) bond = bonds[res[idx-1]];
+//             if(logic==0) bond = bonds[res[idx+1]];
+//             return bond;
+//         }
+
+//         //nearestIndex-> when given a index it finds the nearest element index on the left and right side the given index 
+//          static int nearestIndex(int idx,int side){
+//             if(side==1)
+//             { 
+//                 for(int i=idx;i>=0;i--)
+//                 {
+//                     if(ElementIndexs[i]!=0)
+//                     {
+//                         idx=i;
+//                         break;
+//                     }
+//                 }
+//             }
+//             if(side==0)
+//             {
+//                 for(int i=idx;i<ElementIndexs.Length;i++)
+//                 {
+//                     if(ElementIndexs[i]!=0)
+//                     {
+//                         idx=i;
+//                         break;
+//                     }
+//                 }
+//             }
+//             return idx;
+//         }
+
+//         //implicitHydrogenIndex--> CALCULATES THE IMPLICIT HYDROGEN COUNT OF EACH ELEMENT AND ADDS IT TO THE HydrogenCount DICTIONARY
+//         public void implicitHydrogenIndex(string input)
+//         {
+//             char[] res = input.ToCharArray();
+//             int valency=0;
+//             int bondsCount=0;
+//             int element= 0;
+//             string firstLetter = "";
+//             string secondLetter = "";
+//             bool isit =false;
+//             foreach (var x in graph.adjacencyList)
+//             {
+//                 valency=0;
+//                 bondsCount=0;
+//                 firstLetter = char.ToString(res[x.Key]);
+//                 secondLetter = "";
+//                 isit = false;
+//                 if(x.Key<res.Length-1) 
+//                 {
+//                     secondLetter = char.ToString(res[x.Key+1]);
+//                 }
+//                 string newelement = string.Join("",firstLetter,secondLetter);
+//                 if(Elements.ContainsKey(newelement))
+//                 {
+//                     isit=true;
+//                 }
+//                 if(isit==false)
+//                 {
+//                     element=Elements[char.ToString(res[x.Key])];
+//                 }
+//                 else
+//                 {
+//                     element=Elements[newelement];
+//                 }
+//                 foreach(KeyValuePair<int, int> y in x.Value)
+//                 {
+//                     bondsCount+=y.Value;
+//                 }
+//                 valency=element-bondsCount;
+//                 graph.HydrogenCount.Add(x.Key,valency);
+//             }
+//             foreach(KeyValuePair<int, int> ele in graph.HydrogenCount)
+//             {
+//                 Console.WriteLine(ele.Key +"-->"+ ele.Value);
+//             }
+//         }
+
+//         // adjacencyMatrix --> GENERATES THE ADJACENCY MATRIX 
+//         public int[,] adjacencyMatrix(string input)
+//         {
+//             //size --> NO OF ELEMENTS IN THE GIVEN INPUT SMILES NOTATION
+//             //Matrix_size --> LENGTH OF THE GIVEN INPUT SMILES NOTATION 
+//             char[] res = input.ToCharArray();
+//             int sum=0,n=0,m=0,size = elementCount,Matrix_size = res.Length; 
+//             int[,] array = new int[Matrix_size,Matrix_size];
+//             int[] check = new int[Matrix_size];
+//             int[,] adjacencyMatrix = new int[size,size];
+
+//             //GENERATE THE BIG MATRIX
+//             foreach(var x in graph.adjacencyList)
+//             {
+//                 foreach(KeyValuePair<int, int> y in x.Value)
+//                 {
+//                     array[x.Key,y.Key] = 1;
+//                 }
+//             }
+//             //LOGIC TO REDUCE THE BIG MATRIX TO SMALLER ONE
+//             for(int i=0;i<Matrix_size;i++)
+//             {
+//                 sum=0;
+//                 for(int j=0;j<Matrix_size;j++)
+//                 {
+//                     sum+=array[i,j];
+//                 }
+//                 if(sum!=0) check[i]=1;
+//             }
+
+//             for(int i=0;i<Matrix_size;i++)
+//             {
+//                 if(check[i]!=0)
+//                 {
+//                     n=0;
+//                     for(int j=0;j<Matrix_size;j++)
+//                     {
+//                         if(check[j]!=0) 
+//                         {
+//                             adjacencyMatrix[m,n]=array[i,j];
+//                             n++;
+//                         }
+//                     }
+//                     m++;
+//                 }
+//             }
+//             // int[] xyz = new int[adjacencyMatrix.GetLength(0)];
+//             // int count=0;
+//             //PRINTING THE ADJACENCY MATRIX
+//             for(int i=0;i<size;i++)
+//             {
+//                 // count=0;
+//                 for(int j=0;j<size;j++)
+//                 {
+//                     // if(adjacencyMatrix[i,j]==1) count++;
+//                     Console.Write(adjacencyMatrix[i,j]+" ");
+//                 }
+//                 //xyz[i]=count;
+//                 Console.WriteLine();
+//             }
+//             Console.WriteLine();
+
+//             // /////////////////////////
+//             // for(int i=0;i<xyz.Length;i++){
+//             //     Console.Write(xyz[i]+" ");
+//             // }
+//             // Console.WriteLine();
+//             // for(int i=0;i<size;i++)
+//             //     {
+//             //     for(int j=0;j<size;j++)
+//             //     {
+//             //         if (i < j)
+//             //             Console.Write(adjacencyMatrix[i, j]);
+//             //         else
+//             //              Console.Write(" ");
+//             //     }
+//             //     Console.WriteLine();
+//             // }       
+//             // int di=0;  
+//             // for(int i=0;i<xyz.Length;i++)
+//             // {
+//             //     di+=xyz[i]*xyz[i];
+//             // }
+//             // Console.WriteLine("\nDi value : "+di);
+//             // int currSum=0,finalsum=0;
+//             // double connindex=0;
+
+//             // for(int i=0;i<size;i++)
+//             // {
+//             //     currSum=xyz[i];
+//             //     for(int j=0;j<size;j++)
+//             //     {
+//             //         if(i<j)
+//             //         {
+//             //             if(adjacencyMatrix[i,j]==1)
+//             //             {
+//             //                 finalsum+=currSum*xyz[j];
+//             //                 connindex+=Math.Pow(finalsum,-0.5);
+//             //             }
+//             //         }
+//             //     }
+//             //     //Console.Write(finalsum+" ");
+//             // }
+//             // Console.WriteLine("\nzagref index : "+finalsum);
+//             // Console.Write("randic connectivity index : "+connindex+"\n");
+//             //graph.zagrebIndex(adjacencyMatrix,size);
+//             return adjacencyMatrix;
+//         }
+//         public void zagrebIndex(int[,] adjacencyMatrix)
+//         {
+//             if(adjacencyMatrix.GetLength(0)==adjacencyMatrix.GetLength(1))
+//             {
+//                 int[] degreeOfVertices = new int[adjacencyMatrix.GetLength(0)];
+//                 int count=0;
+//                 for(int i=0;i<adjacencyMatrix.GetLength(0);i++)
+//                 {
+//                     count=0;
+//                     for(int j=0;j<adjacencyMatrix.GetLength(0);j++)
+//                     {
+//                         if(adjacencyMatrix[i,j]==1) count++;
+//                     }
+//                     degreeOfVertices[i]=count;
+//                 }
+//                 for(int i=0;i<degreeOfVertices.Length;i++){
+//                     Console.Write(degreeOfVertices[i]+" ");
+//                 }
+//                 int M1 = 0;
+//                 for(int i=0;i<degreeOfVertices.Length;i++)
+//                 {
+//                     M1+=degreeOfVertices[i]*degreeOfVertices[i];
+//                 }
+//                 Console.WriteLine("\nM1 value : "+M1);
+//                 int M2=0;
+//                 double connindex=0;
+
+//                 for(int i=0;i<adjacencyMatrix.GetLength(0);i++)
+//                 {
+//                     // currSum=degreeOfVertices[i];
+//                     for(int j=0;j<adjacencyMatrix.GetLength(0);j++)
+//                     {
+//                         if(i<j)
+//                         {
+//                             if(adjacencyMatrix[i,j]==1)
+//                             {
+//                                 M2+=degreeOfVertices[i]*degreeOfVertices[j];
+//                                 connindex+=1/Math.Sqrt(degreeOfVertices[i]*degreeOfVertices[j]);
+//                             }
+//                         }
+//                     }
+//                     Console.Write(M2+" ");
+//                 }
+//                 Console.Write("\nM2 value :"+M2);
+//                 Console.Write("\nrandic connectivity index : "+connindex+"\n");
+//             }
+//             else
+//             {
+//                 Console.WriteLine("RE-DO ADJACENCY MATRIX");
+//             }
+//         }
+
+//         public void readSmiles(string input)
+//         {
+
+//             char[] res = input.ToCharArray();
+
+//             //DUMMY-->used for branch calculations.
+//             int[] arr = new int[100];
+//             int count = 0;     
+
+//             for(int i=0;i<res.Length;i++)
+//             {
+//                 //CHECK/LOGIC FOR BRANCH STRUCTURES IN INPUT SMILES NOTATION
+//                 if((res[i]==')'))
+//                 {
+//                     count--;
+//                     if(i!=res.Length-1)
+//                     {
+//                         if(bonds.ContainsKey(res[i+1]))
+//                         {
+//                             int bond = graph.findindexvalues(i,0,res);
+//                             graph.addEdge(i+2,arr[count],bond);
+//                         }
+//                         else if(Elements.ContainsKey(char.ToString(res[i+1])))
+//                         {
+//                             graph.addEdge(i+1,arr[count],1);
+//                         }
+//                     }
+//                 }
+//                 if((res[i]=='(')&&(res[i-1]!=')'))
+//                 {
+//                     if(char.IsLower(res[i-1]))
+//                     {
+//                         arr[count] = i-2;
+//                     }
+//                     else 
+//                     {
+//                         arr[count] = i-1;
+//                     }
+//                     count++;
+//                 }
+//                 if((res[i]=='(')&&(res[i-1]==')'))
+//                 {
+//                     if(bonds.ContainsKey(res[i+1]))
+//                     {
+//                         int bond = graph.findindexvalues(i,0,res);
+//                         graph.addEdge(arr[count++],i+2,bond);
+//                     }
+//                     else
+//                     {
+//                         if(Elements.ContainsKey(char.ToString(res[i+1])))
+//                         {
+//                             graph.addEdge(arr[count++],i+1,1);
+//                         }
+//                     }
+//                 }
+//                 else if((res[i]=='(')&&(res[i-1]!=')'))
+//                 {
+//                     if(bonds.ContainsKey(res[i+1]))
+//                     {
+//                         int bond = graph.findindexvalues(i,0,res);
+//                         if(char.IsLower(res[i-1]))
+//                         {
+//                             graph.addEdge(i-2,i+2,bond);
+//                         }
+//                         else
+//                         {
+//                             graph.addEdge(i-1,i+2,bond);
+//                         }
+//                     }
+//                     else
+//                     {
+//                         if(char.IsLower(res[i-1]))
+//                         {
+//                             graph.addEdge(i-2,i+1,1);
+//                         }
+//                         else 
+//                         {
+//                             graph.addEdge(i-1,i+1,1);
+//                         }
+//                     }
+//                 }
+
+//                 //CHECK/LOGIC FOR RING STRUCTURES
+//                 if(char.IsDigit(res[i]))
+//                 {   
+//                     int bond_value=0;
+//                     for(int j=i+1;j<res.Count();j++)
+//                     {
+//                         if(res[i]==res[j])
+//                         {
+//                             if(bonds.ContainsKey(res[i-1])||bonds.ContainsKey(res[j-1]))
+//                             {
+//                                 if(bonds.ContainsKey(res[i-1])&&(bonds.ContainsKey(res[j-1]))&&(bonds.ContainsKey(res[i-1])==bonds.ContainsKey(res[j-1])))
+//                                 {
+//                                     bond_value=bonds[res[i-1]];
+//                                     if((char.IsLower(res[i-2]))&&(char.IsLower(res[j-2]))) 
+//                                     {
+//                                         graph.addEdge(i-3,j-3,bond_value);
+//                                     }
+//                                     else if(char.IsLower(res[i-2]))
+//                                     {
+//                                         graph.addEdge(i-3,j-2,bond_value);
+//                                     }
+//                                     else if(char.IsLower(res[j-2])) 
+//                                     {
+//                                         graph.addEdge(i-2,j-3,bond_value);
+//                                     }
+//                                     else 
+//                                     {
+//                                         graph.addEdge(i-2,j-2,bond_value); 
+//                                     }
+//                                 }
+//                                 else if(bonds.ContainsKey(res[i-1]))
+//                                 {
+//                                     bond_value=bonds[res[i-1]];
+//                                     if(char.IsLower(res[i-2])) 
+//                                     {
+//                                         graph.addEdge(i-3,j-1,bonds[res[i-1]]);
+//                                     }
+//                                     else 
+//                                     {
+//                                         graph.addEdge(i-2,j-1,bond_value);
+//                                     }
+//                                 }
+//                                 else 
+//                                 {
+//                                     bond_value=bonds[res[j-1]];
+//                                     if(char.IsLower(res[j-2])) 
+//                                     {
+//                                         graph.addEdge(i-1,j-3,bond_value);
+//                                     }
+//                                     else 
+//                                     {
+//                                         graph.addEdge(i-1,j-2,bond_value);
+//                                     }
+//                                 }
+//                             }
+//                             else
+//                             {
+//                                 if(char.IsLower(res[i-1])&&(char.IsLower(res[j-1]))) 
+//                                 {
+//                                     graph.addEdge(i-2,j-2,1);
+//                                 }
+//                                 else if(char.IsLower(res[i-1])) 
+//                                 {
+//                                     graph.addEdge(i-2,j-1,1);
+//                                 }
+//                                 else if(char.IsLower(res[j-1])) 
+//                                 {
+//                                     graph.addEdge(i-1,j-2,1);
+//                                 }
+//                                 else 
+//                                 {
+//                                     graph.addEdge(i-1,j-1,1); 
+//                                 }
+//                             }
+//                         }
+//                     }
+
+//                 }
+//                 ///CHECK/LOGIC FOR LINEAR TRAVERSAL AND BOND INITIALIZATION IN INPUT SMILES NOTATION
+//                 if(i!=res.Length-1)
+//                 {
+//                     if(Elements.ContainsKey(char.ToString(res[i])) && !char.IsLower(res[i+1]))
+//                     {
+//                         if(Elements.ContainsKey(char.ToString(res[i+1])))
+//                         {
+//                             graph.addEdge(i,i+1,1);
+//                         }
+//                         // else if(char.IsLower(res[i+1]) && ((i+1)!=res.Length-1))
+//                         // {
+//                         //     if(bonds.ContainsKey(res[i+2]))
+//                         //     {
+//                         //         graph.addEdge(i,i+3,bonds[res[i+2]]);
+//                         //     }
+//                         //     else if(Elements.ContainsKey(char.ToString(res[i+2])))
+//                         //     {
+//                         //         graph.addEdge(i,i+2,1);
+//                         //     }
+//                         // }
+//                         if(bonds.ContainsKey(res[i+1]))
+//                         {
+//                             if(Elements.ContainsKey(char.ToString(res[i+3])))
+//                             {
+//                                 graph.addEdge(i,i+2,bonds[res[i+1]]);
+//                             }
+//                         }
+//                     }
+//                     else if(char.IsLower(res[i]))
+//                     {
+//                         if(bonds.ContainsKey(res[i+1]))
+//                         {
+//                             graph.addEdge(i-1,i+2,bonds[res[i+1]]);
+//                         }
+//                         else
+//                         {
+//                             graph.addEdge(i-1,i+1,1);
+//                         }
+//                     }
+//                     if(char.IsDigit(res[i]))
+//                     {
+//                         if(res[i+1]!=')')
+//                         {if(bonds.ContainsKey(res[i+1]))
+//                         {
+//                             graph.addEdge(nearestIndex(i,1),nearestIndex(i,0),bonds[res[i+1]]);
+//                         }
+//                         else
+//                         {
+//                             graph.addEdge(nearestIndex(i,1),nearestIndex(i,0),1);
+//                         }}
+//                     }
+
+//                 }
+
+//             }
+//         }
+        
+//         public void initiateVertex(string input)
+//         {
+//             //TRAVERSING THROUGH THE INPUT SMILES NOTATION INITIATING GRAPH VERTICES
+//             char[] res = input.ToCharArray();
+//             // ElementIndexs = new ElementIndexs[res.Length];
+//             for(int i=0;i<res.Length-1;i++)
+//             {
+//                 // if(char.IsLower(res[i]) && !graph.adjacencyList.ContainsKey(i-1))
+//                 // {
+//                 //     ++elementCount;
+//                 //     ++ElementIndexs[i-1];
+//                 //     graph.addVertex(i-1);         
+//                 // }                
+//                 // if(Elements.ContainsKey(char.ToString(res[i])) && !graph.adjacencyList.ContainsKey(i-1))
+//                 // {
+//                 //     ++elementCount;
+//                 //     ++ElementIndexs[i];
+//                 //     graph.addVertex(i);
+//                 // }
+//                 if(Elements.ContainsKey(char.ToString(res[i])+char.ToString(res[i+1])) || Elements.ContainsKey(char.ToString(res[i])))
+//                 {
+//                     ++elementCount;
+//                     ++ElementIndexs[i];
+//                     graph.addVertex(i);
+//                 }
+//             }
+//             if(Elements.ContainsKey(Char.ToString(res[res.Length-1])))
+//             {
+//                  ++elementCount;
+//                 ++ElementIndexs[res.Length-1];
+//                  graph.addVertex(res.Length-1);
+//             }
+//         }
+       
+//         //MAIN METHOD
+//         // static void Main(string[] args)
+//         // {
+//         //     //INITIATES THE GRAPH VERTICES AS INDEX OF THE ELEMENTS IN THE GI 
+//         //     graph.initiateVertex(sb);
+//         //     //PRINT THE LIST RES-->CONTAINS INPUT SMILES IN CHARACTER ARRAY FORM
+//         //     Console.WriteLine("INPUT SMILES :"+sb+"\n");
+//         //     graph.readSmiles(sb);
+//         //     //IMPLICIT HYDROGEN INITIALIZATION
+//         //     // Console.WriteLine("\nIMPLICIT HYDROGEN COUNT\n");
+//         //     // graph.implicitHydrogenIndex(sb);
+
+//         //     //ADJACENCY MATRIX GENERATION
+//         //     Console.WriteLine("\nADJACENCY MATRIX\n");
+//         //     graph.adjacencyMatrix(sb); 
+//         //     graph.zagrebIndex(graph.adjacencyMatrix(sb));
+//         //     //PRINTING THE GRAPH
+//         //     // VERTEX-->VERTEX : BOND-VALUE --> format of printing the graph
+//         //     foreach (var x in graph.adjacencyList)
+//         //     { 
+//         //         Console.WriteLine(x.Key);
+//         //         foreach (KeyValuePair<int, int> y in x.Value)
+//         //         {
+//         //             Console.WriteLine("vertex " + x.Key + " ---> " + y.Key + ": "+y.Value);
+//         //         }
+//         //     }
+
+//         // }
+//     }
+// }
+============================================================================================================================================
+
+day - 18/02/2023
+
+
+//CHECK/LOGIC FOR LINEAR TRAVERSAL AND BOND INITIALIZATION IN INPUT SMILES NOTATION
+                // if(Elements.ContainsKey(char.ToString(res[i])+char.ToString(res[i+1])) || Elements.ContainsKey(char.ToString(res[i])))
+                // {
+                //     //elementindex
+                //     //  CC(Br)Cl=C
+                //     //  1101001001
+                //     //  0123456
+                //     while()
+                // }
+                // int x=1,prev=0,bondzz=1;
+                // while(x<ElementIndexs.Length)
+                // {
+                //     if(bonds.ContainsKey(res[x])) bondzz=bonds[res[x]];
+                //     if(ElementIndexs[x]==1  && ElementIndexs[x-1]!=')')
+                //     {
+                //         graph.addEdge(prev,x,bondzz);
+                //         bondzz=1;
+                //         prev=x;
+                //     }
+                //     x++;
+                // }
+
+                // int prev=0,bondz=1;
+                // for(int x=1;x<ElementIndexs.Length;x++)
+                // {
+                //     if(bonds.ContainsKey(res[x])) bondz=bonds[res[x]]; 
+                //     if(ElementIndexs[x]==1 && ElementIndexs[prev]==1)
+                //     {
+                //         graph.addEdge(prev,x,bondz);
+                //         bondz=1;
+                //         prev++;
+                //     }
+                // }
+
+                // if(i!=res.Length-1)
+                // {
+                //     if(Elements.ContainsKey(char.ToString(res[i])) && !char.IsLower(res[i+1]))
+                //     {
+                //         if(Elements.ContainsKey(char.ToString(res[i+1])))
+                //         {
+                //             graph.addEdge(i,i+1,1);
+                //         }
+                //         // else if(char.IsLower(res[i+1]) && ((i+1)!=res.Length-1))
+                //         // {
+                //         //     if(bonds.ContainsKey(res[i+2]))
+                //         //     {
+                //         //         graph.addEdge(i,i+3,bonds[res[i+2]]);
+                //         //     }
+                //         //     else if(Elements.ContainsKey(char.ToString(res[i+2])))
+                //         //     {
+                //         //         graph.addEdge(i,i+2,1);
+                //         //     }
+                //         // }
+                //         if(bonds.ContainsKey(res[i+1]))
+                //         {
+                //             if(Elements.ContainsKey(char.ToString(res[i+2])))
+                //             {
+                //                 graph.addEdge(i,i+2,bonds[res[i+1]]);
+                //             }
+                //         }
+                //     }
+                //     else if(char.IsLower(res[i]) && res[i+1]!='(')
+                //     {
+                //         if(bonds.ContainsKey(res[i+1]))
+                //         {
+                //             graph.addEdge(i-1,i+2,bonds[res[i+1]]);
+                //         }
+                //         else
+                //         {
+                //             if(res[i+1]!=')')
+                //             {
+                //                 graph.addEdge(i-1,i+1,1);
+                //             }
+                //         }
+                //     }
+                //     if(char.IsDigit(res[i]))
+                //     {
+                //         if(res[i+1]!=')')
+                //         {
+                //             if(bonds.ContainsKey(res[i+1]))
+                //             {
+                //                 graph.addEdge(nearestIndex(i,1),nearestIndex(i,0),bonds[res[i+1]]);
+                //             }
+                //             else
+                //             {
+                //                 graph.addEdge(nearestIndex(i,1),nearestIndex(i,0),1);
+                //             }
+                //         }
+                //     }
+
+                // }
+
+
+//CHECK/LOGIC FOR SINGLE BONDS 
+            // int x=1,prev=0,bondzz=1;
+            // while(x<ElementIndexs.Length)
+            // {
+            //     if(bonds.ContainsKey(res[x])) bondzz=bonds[res[x]];
+            //     if(ElementIndexs[x]==1  && ElementIndexs[x-1]!=')')
+            //     {
+            //         if(!graph.adjacencyList.ContainsKey(prev) && !graph.adjacencyList.ContainsKey(x))
+            //         {   
+            //             graph.addEdge(prev,x,bondzz);
+            //             bondzz=1;
+            //             prev=x;
+            //         }
+            //     }
+            //     x++;
+            // }
+
+//CHECK/LOGIC FOR RING STRUCTURES
+                // if(char.IsDigit(res[i]))
+                // {   
+                //     int bond_value=0;
+                //     for(int j=i+1;j<res.Count();j++)
+                //     {
+                //         if(res[i]==res[j])
+                //         {
+                //             if(bonds.ContainsKey(res[i-1])||bonds.ContainsKey(res[j-1]))
+                //             {
+                //                 if(bonds.ContainsKey(res[i-1])&&(bonds.ContainsKey(res[j-1]))&&(bonds.ContainsKey(res[i-1])==bonds.ContainsKey(res[j-1])))
+                //                 {
+                //                     bond_value=bonds[res[i-1]];
+                //                     if((char.IsLower(res[i-2]))&&(char.IsLower(res[j-2]))) 
+                //                     {
+                //                         graph.addEdge(i-3,j-3,bond_value);
+                //                     }
+                //                     else if(char.IsLower(res[i-2]))
+                //                     {
+                //                         graph.addEdge(i-3,j-2,bond_value);
+                //                     }
+                //                     else if(char.IsLower(res[j-2])) 
+                //                     {
+                //                         graph.addEdge(i-2,j-3,bond_value);
+                //                     }
+                //                     else 
+                //                     {
+                //                         graph.addEdge(i-2,j-2,bond_value); 
+                //                     }
+                //                 }
+                //                 else if(bonds.ContainsKey(res[i-1]))
+                //                 {
+                //                     bond_value=bonds[res[i-1]];
+                //                     if(char.IsLower(res[i-2])) 
+                //                     {
+                //                         graph.addEdge(i-3,j-1,bonds[res[i-1]]);
+                //                     }
+                //                     else 
+                //                     {
+                //                         graph.addEdge(i-2,j-1,bond_value);
+                //                     }
+                //                 }
+                //                 else 
+                //                 {
+                //                     bond_value=bonds[res[j-1]];
+                //                     if(char.IsLower(res[j-2])) 
+                //                     {
+                //                         graph.addEdge(i-1,j-3,bond_value);
+                //                     }
+                //                     else 
+                //                     {
+                //                         graph.addEdge(i-1,j-2,bond_value);
+                //                     }
+                //                 }
+                //             }
+                //             else
+                //             {
+                //                 if(char.IsLower(res[i-1])&&(char.IsLower(res[j-1]))) 
+                //                 {
+                //                     graph.addEdge(i-2,j-2,1);
+                //                 }
+                //                 else if(char.IsLower(res[i-1])) 
+                //                 {
+                //                     graph.addEdge(i-2,j-1,1);
+                //                 }
+                //                 else if(char.IsLower(res[j-1])) 
+                //                 {
+                //                     graph.addEdge(i-1,j-2,1);
+                //                 }
+                //                 else 
+                //                 {
+                //                     graph.addEdge(i-1,j-1,1); 
+                //                 }
+                //             }
+                //         }
+                //     }
+
+                // }
+
+// class inputClass
+    // {
+    //     static void Main(string[] args)
+    //     {
+    //         WeightedGraph inputobj = new WeightedGraph();
+    //         Console.WriteLine("START (1/0) ?");
+    //         int option = Convert.ToInt32(Console.ReadLine());
+    //         string inputSmiles = "";
+    //         do{
+    //         Console.WriteLine("enter the option : \n1)input smiles notation\n2)print adjacency matrix\n3)print implicit hydrogens\n4)print zagreb index\n");
+    //         option = Convert.ToInt32(Console.ReadLine());
+    //         switch (option)
+    //         {
+    //             case 1:
+    //                 Console.WriteLine("ENTER THE INPUT SMILES NOTATION : ");
+    //                 inputSmiles = Console.ReadLine();
+    //                 if(!string.IsNullOrEmpty(inputSmiles))
+    //                 {   
+    //                     inputobj.initiateVertex(inputSmiles);
+    //                     inputobj.readSmiles(inputSmiles);
+    //                 }
+    //                 else
+    //                 {
+    //                     Console.WriteLine("ENTER A PROPER INPUT");
+    //                 }
+    //                 break;
+    //             case 2:
+    //                 Console.WriteLine("ADJACENCY MATRIX : ");
+    //                 inputobj.adjacencyMatrix(inputSmiles);
+    //                 break;
+    //             case 3:
+    //                 Console.WriteLine("IMPLICIT HYDROGEN COUNT : ");
+    //                 inputobj.implicitHydrogenIndex(inputSmiles);
+    //                 break;
+    //             case 4:
+    //                 Console.WriteLine("ZAGREB INDEX : ");
+    //                 inputobj.zagrebIndex(inputobj.adjacencyMatrix(inputSmiles));
+    //                 break;
+    //             default:
+    //                 Console.WriteLine("INVALID OPTION");
+    //                 break;
+    //         }
+    //         Console.WriteLine("DO YOU WANT TO CONTINUE (1/0) :");
+    //         option = Convert.ToInt32(Console.ReadLine());
+    //         }while(option!=0);
+    //     }
+    //}
+
+
+// static int nearestbond(int idx,int side,string input)
+        // {
+        //     char[] res = input.ToCharArray();
+        //     int bond = 1;
+        //     if(side==1)
+        //     {
+        //         for(int i=idx;i>=0;i--)
+        //         {
+        //             if(bonds.ContainsKey(res[i]))
+        //             {
+        //                 bond = bonds[res[i]];
+        //                 break;
+        //             }
+        //         }
+        //     }
+        //     if(side==0)
+        //     {
+        //         for(int i=idx;i<res.Length;i++)
+        //         {
+        //             if(bonds.ContainsKey(res[i]))
+        //             {
+        //                 bond = bonds[res[i]];
+        //                 break;
+        //             }
+        //         }
+        //     }
+        //     return bond;
+        // }
+
+        // static void branch(string input)
+        // {
+        //     Dictionary<int,int> stack = new Dictionary<int, int>();
+        //     char[] res = input.ToCharArray();
+        //     int[] arr = new int[res.Length];
+        //     int j=0;
+        //     for (int i = 0; i <res.Length ; i++)
+        //     {
+        //         if(res[i]=='(')
+        //         {
+        //             arr[j++] = i;
+        //         }
+        //         else if(res[i]==')')
+        //         {
+        //             stack.Add(arr[j-1],i);
+        //             j--;
+        //         }
+        //     }
+        //     for(int i=0;i<res.Length;i++)
+        //     {
+        //         if(stack.ContainsKey(i))
+        //         {
+        //             if(res[i-1]==')' && res[i]=='(')
+        //             {
+        //                 for(int m=i-1;m>=0;m--)
+        //                 {
+        //                     if(res[m]=='(' && res[m-1]!=')'){
+        //                         graph.addEdge(nearestIndex(m,1),nearestIndex(i,0),(bonds.ContainsKey(res[m+1]) ? bonds[res[m+1]] : 1));
+        //                     }
+        //                 }
+        //             }
+        //             // )(
+        //             // cl(C)(c)C
+        //             if(bonds.ContainsKey(res[stack[i]+1]))
+        //             {
+        //                 graph.addEdge(nearestIndex(i,1),nearestIndex(stack[i],0),bonds[res[stack[i]+1]]);
+        //             }
+        //             else
+        //             {
+        //                 if(res[stack[i]+1]!='(')
+        //                 {
+        //                     graph.addEdge(nearestIndex(i,1),nearestIndex(stack[i],0),1);
+        //                 }
+        //             }
+        //             if(bonds.ContainsKey(res[i+1]))
+        //             {
+        //                 graph.addEdge(nearestIndex(i,1),nearestIndex(i,0),bonds[res[i+1]]);
+        //             }
+        //             else
+        //             {
+        //                 graph.addEdge(nearestIndex(i,1),nearestIndex(i,0),1);
+        //             }
+        //         }
+        //     } 
+
+        // }
+
+
+
+// // actual branching logic
+// for(int i=0;i<res.Length;i++)
+//             {
+//                 //CHECK/LOGIC FOR BRANCH STRUCTURES IN INPUT SMILES NOTATION
+//                 if((res[i]==')'))
+//                 {
+//                     count--;
+//                     if(i!=res.Length-1)
+//                     {
+//                         if(bonds.ContainsKey(res[i+1]))
+//                         {
+//                             // int bond = graph.findindexvalues(i,0,res);
+//                             // graph.addEdge(i+2,arr[count],bond);
+//                             graph.addEdge(nearestIndex(i,0),arr[count],bonds[res[i+1]]);
+//                         }
+//                         else if(ElementIndexs[i+1]==1)//(Elements.ContainsKey(char.ToString(res[i+1])))
+//                         {
+//                             graph.addEdge(i+1,arr[count],1);
+//                         }
+//                     }
+//                     //mn(ag)(br)cl
+//                 }
+//                 if((res[i]=='(')&&(res[i-1]!=')'))
+//                 {
+//                     if(char.IsLower(res[i-1]))
+//                     {
+//                         arr[count] = i-2;
+//                     }
+//                     else 
+//                     {
+//                         arr[count] = i-1;
+//                     }
+//                     //arr[count] = nearestIndex(i,1);
+//                     count++;
+//                 }
+//                 if((res[i]=='(')&&(res[i-1]==')'))
+//                 {   //    C()(-c)
+//                     if(bonds.ContainsKey(res[i+1]))
+//                     {
+//                         //int bond = graph.findindexvalues(i,0,res);
+//                         //graph.addEdge(arr[count++],i+2,bond);
+//                         graph.addEdge(arr[count++],nearestIndex(i,0),bonds[res[i+1]]);
+//                         //count++;
+//                     }
+//                     else
+//                     {
+//                     //     if(Elements.ContainsKey(char.ToString(res[i+1])))
+//                     //     {
+//                     //         graph.addEdge(arr[count++],i+1,1);
+//                     //     }
+//                         // if(Elements.ContainsKey(char.ToString(res[i+1]))) graph.addEdge(arr[count++],nearestIndex(i,0),1);
+//                         if(ElementIndexs[i+1]==1) graph.addEdge(arr[count++],nearestIndex(i,0),1);//count++;
+//                     }
+//                 }
+//                 else if((res[i]=='(')&&(res[i-1]!=')'))
+//                 {
+//                     if(bonds.ContainsKey(res[i+1]))
+//                     {
+//                         // int bond = graph.findindexvalues(i,0,res);
+//                         // if(char.IsLower(res[i-1]))
+//                         // {
+//                         //     graph.addEdge(i-2,i+2,bond);
+//                         // }
+//                         // else
+//                         // {
+//                         //     graph.addEdge(i-1,i+2,bond);
+//                         // }   C(=C)
+//                         graph.addEdge(nearestIndex(i,1),nearestIndex(i,0),bonds[res[i+1]]);
+//                     }
+//                     else
+//                     {
+//                         // if(char.IsLower(res[i-1]))
+//                         // {
+//                         //     graph.addEdge(i-2,i+1,1);
+//                         // }
+//                         // else 
+//                         // {
+//                         //     graph.addEdge(i-1,i+1,1);
+//                         // }
+//                         graph.addEdge(nearestIndex(i,1),nearestIndex(i,0),1);
+//                     }
+//                 }
+//             }
+
+============================================================================================================================================
+// else if(!Elements.ContainsKey(char.ToString(res[i])+char.ToString(res[i+1]))) {
+            //     if(Elements.ContainsKey(reverse(char.ToString(res[i])+char.ToString(res[i+1])))) continue;
+            //     else if()
+            // }
+
+
+
+    // public static string reverse(string ip)
+    // {
+    //     char[] stringArray = ip.ToCharArray();  
+    //     string rev = String.Empty;  
+    //     for (int i = stringArray.Length - 1; i >= 0; i--) rev += stringArray[i];  
+    //     return rev;
+    // }
+========================================================================================================================================
+
+new DATE :- 22.04.23
+
+            //  C-C-C-C
+            //  1 2 2 1
+            // (1/sqrt(1*2))+(1/sqrt(2*2))+(1/sqrt(2*1))
+
+            //      C C C C 
+            // C  [ 0 1 0 0 ] -> 1
+            // C  [ 1 0 1 0 ] -> 2
+            // C  [ 0 1 0 1 ] -> 2
+            // C  [ 0 0 1 0 ] -> 1
+
+            //  psi0 = (2*(1/sqrt(1))) + (2*(1/sqrt(2)))  
+            //  psi1 = when i > j -> if 1 then 1/sqrt((current row sum)*(current col sum))
+            // psi2 = traverse thru the adj_mat for 1 , if 1 then goto that col and find the rightmost 1 in the new row
+
+=========================================================================================================================================
+
+
+            // calculation for PSI0
+            // for(int i=0;i<Degree.Length;i++)
+            // {
+            //     Psi0+=1/(Math.Sqrt(Degree[i]));
+            // }
+            // Console.WriteLine("PSI0 : "+Psi0);
+
+            // // calculation for PSI1
+            // for(int i=0;i<adjacencyMatrix.GetLength(0);i++)
+            // {
+            //     for(int j=i+1;j<adjacencyMatrix.GetLength(0);j++)
+            //     {
+            //         if(adjacencyMatrix[i,j]==1)
+            //         {
+            //             Psi1+=1/Math.Sqrt(Degree[i]*Degree[j]);
+            //         }
+            //     }
+            // }
+            // Console.WriteLine("PSI1 : "+Psi1);
+
+            // calculation for PSI2
+            // for(int i=0;i<adjacencyMatrix.GetLength(0);i++)
+            // {
+            //     for(int j=i+1;j<adjacencyMatrix.GetLength(0);j++)
+            //     {
+            //         if(adjacencyMatrix[i,j]==1)
+            //         {
+            //             Psi1+=1/Math.Sqrt(Degree[i]*Degree[j]);
+            //             for(int k=j;k<adjacencyMatrix.GetLength(0);k++)
+            //             {
+            //                 if(adjacencyMatrix[j,k]==1)
+            //                 {
+            //                     Psi2+=1/(Math.Sqrt(Degree[i]*Degree[j]*Degree[k]));
+            //                 }
+            //             }
+            //         }
+            //     }
+            // }
+            // Console.WriteLine("PSI1 : "+Psi1);
+            // Console.WriteLine("PSI2 : "+Psi2);
+
+            // calculation for PSI3
+            // for(int i=0;i<adjacencyMatrix.GetLength(0);i++)
+            // {
+            //     for(int j=i+1;j<adjacencyMatrix.GetLength(0);j++)
+            //     {
+            //         if(adjacencyMatrix[i,j]==1)
+            //         {
+            //             Psi1+=1/Math.Sqrt(Degree[i]*Degree[j]);
+            //             for(int k=j;k<adjacencyMatrix.GetLength(0);k++)
+            //             {
+            //                 if(adjacencyMatrix[j,k]==1)
+            //                 {
+            //                     Psi2+=1/(Math.Sqrt(Degree[i]*Degree[j]*Degree[k]));
+            //                     for(int l=k;l<adjacencyMatrix.GetLength(0);l++)
+            //                     {
+            //                         if(adjacencyMatrix[k,l]==1)
+            //                         {
+            //                             Psi3+=1/(Math.Sqrt(Degree[i]*Degree[j]*Degree[k]*Degree[l]));
+            //                         }
+            //                     }
+            //                 }
+            //             }
+            //         }
+            //     }
+            // }
+            // Console.WriteLine("PSI1 : "+Psi1);
+            // Console.WriteLine("PSI2 : "+Psi2);
+            // Console.WriteLine("PSI3 : "+Psi3);
+
+            // // calculation for PSI4
+            // for(int i=0;i<adjacencyMatrix.GetLength(0);i++)
+            // {
+            //     for(int j=i+1;j<adjacencyMatrix.GetLength(0);j++)
+            //     {
+            //         if(adjacencyMatrix[i,j]==1)
+            //         {
+            //             for(int k=j;k<adjacencyMatrix.GetLength(0);k++)
+            //             {
+            //                 if(adjacencyMatrix[j,k]==1)
+            //                 {
+            //                     for(int l=k;l<adjacencyMatrix.GetLength(0);l++)
+            //                     {
+            //                         if(adjacencyMatrix[k,l]==1)
+            //                         {
+            //                             for(int m=l;m<adjacencyMatrix.GetLength(0);m++)
+            //                             {
+            //                                 if(adjacencyMatrix[l,m]==1)
+            //                                 {
+            //                                     Psi4+=1/(Math.Sqrt(Degree[i]*Degree[j]*Degree[k]*Degree[l]*Degree[m]));
+            //                                 }
+            //                             }
+            //                         }
+            //                     }
+            //                 }
+            //             }
+            //         }
+            //     }
+            // }
+            // Console.WriteLine("PSI4 : "+Psi4);
+
+========================================================================================================================================
